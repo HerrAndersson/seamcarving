@@ -1,0 +1,173 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Project DefaultTargets="Build" ToolsVersion="12.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <ItemGroup Label="ProjectConfigurations">
+    <ProjectConfiguration Include="Debug|Win32">
+      <Configuration>Debug</Configuration>
+      <Platform>Win32</Platform>
+    </ProjectConfiguration>
+    <ProjectConfiguration Include="Release|Win32">
+      <Configuration>Release</Configuration>
+      <Platform>Win32</Platform>
+    </ProjectConfiguration>
+  </ItemGroup>
+  <PropertyGroup Label="Globals">
+    <ProjectGuid>{9AFF6E4E-5D21-4DDE-948B-0E6BE0365098}</ProjectGuid>
+    <Keyword>Win32Proj</Keyword>
+    <RootNamespace>RayCastLab</RootNamespace>
+    <ProjectName>SeamCarving</ProjectName>
+  </PropertyGroup>
+  <Import Project="$(VCTargetsPath)\Microsoft.Cpp.Default.props" />
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'" Label="Configuration">
+    <ConfigurationType>Application</ConfigurationType>
+    <UseDebugLibraries>true</UseDebugLibraries>
+    <PlatformToolset>v120</PlatformToolset>
+    <CharacterSet>Unicode</CharacterSet>
+  </PropertyGroup>
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|Win32'" Label="Configuration">
+    <ConfigurationType>Application</ConfigurationType>
+    <UseDebugLibraries>false</UseDebugLibraries>
+    <PlatformToolset>v120</PlatformToolset>
+    <WholeProgramOptimization>true</WholeProgramOptimization>
+    <CharacterSet>Unicode</CharacterSet>
+  </PropertyGroup>
+  <Import Project="$(VCTargetsPath)\Microsoft.Cpp.props" />
+  <ImportGroup Label="ExtensionSettings">
+  </ImportGroup>
+  <ImportGroup Label="PropertySheets" Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">
+    <Import Project="$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props" Condition="exists('$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props')" Label="LocalAppDataPlatform" />
+  </ImportGroup>
+  <ImportGroup Label="PropertySheets" Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">
+    <Import Project="$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props" Condition="exists('$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props')" Label="LocalAppDataPlatform" />
+  </ImportGroup>
+  <PropertyGroup Label="UserMacros" />
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">
+    <LinkIncremental>true</LinkIncremental>
+  </PropertyGroup>
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">
+    <LinkIncremental>false</LinkIncremental>
+  </PropertyGroup>
+  <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">
+    <ClCompile>
+      <PrecompiledHeader>
+      </PrecompiledHeader>
+      <WarningLevel>Level3</WarningLevel>
+      <Optimization>Disabled</Optimization>
+      <PreprocessorDefinitions>WIN32;_DEBUG;_WINDOWS;%(PreprocessorDefinitions)</PreprocessorDefinitions>
+    </ClCompile>
+    <Link>
+      <SubSystem>Windows</SubSystem>
+      <GenerateDebugInformation>true</GenerateDebugInformation>
+    </Link>
+  </ItemDefinitionGroup>
+  <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">
+    <ClCompile>
+      <WarningLevel>Level3</WarningLevel>
+      <PrecompiledHeader>
+      </PrecompiledHeader>
+      <Optimization>MaxSpeed</Optimization>
+      <FunctionLevelLinking>true</FunctionLevelLinking>
+      <IntrinsicFunctions>true</IntrinsicFunctions>
+      <PreprocessorDefinitions>WIN32;NDEBUG;_WINDOWS;%(PreprocessorDefinitions)</PreprocessorDefinitions>
+    </ClCompile>
+    <Link>
+      <SubSystem>Windows</SubSystem>
+      <GenerateDebugInformation>true</GenerateDebugInformation>
+      <EnableCOMDATFolding>true</EnableCOMDATFolding>
+      <OptimizeReferences>true</OptimizeReferences>
+    </Link>
+  </ItemDefinitionGroup>
+  <ItemGroup>
+    <ClCompile Include="Application.cpp" />
+    <ClCompile Include="JpegLoader.cpp" />
+    <ClCompile Include="LibJpeg\jaricom.c" />
+    <ClCompile Include="LibJpeg\jcapimin.c" />
+    <ClCompile Include="LibJpeg\jcapistd.c" />
+    <ClCompile Include="LibJpeg\jcarith.c" />
+    <ClCompile Include="LibJpeg\jccoefct.c" />
+    <ClCompile Include="LibJpeg\jccolor.c" />
+    <ClCompile Include="LibJpeg\jcdctmgr.c" />
+    <ClCompile Include="LibJpeg\jchuff.c" />
+    <ClCompile Include="LibJpeg\jcinit.c" />
+    <ClCompile Include="LibJpeg\jcmainct.c" />
+    <ClCompile Include="LibJpeg\jcmarker.c" />
+    <ClCompile Include="LibJpeg\jcmaster.c" />
+    <ClCompile Include="LibJpeg\jcomapi.c" />
+    <ClCompile Include="LibJpeg\jcparam.c" />
+    <ClCompile Include="LibJpeg\jcprepct.c" />
+    <ClCompile Include="LibJpeg\jcsample.c" />
+    <ClCompile Include="LibJpeg\jctrans.c" />
+    <ClCompile Include="LibJpeg\jdapimin.c" />
+    <ClCompile Include="LibJpeg\jdapistd.c" />
+    <ClCompile Include="LibJpeg\jdarith.c" />
+    <ClCompile Include="LibJpeg\jdatadst.c" />
+    <ClCompile Include="LibJpeg\jdatasrc.c" />
+    <ClCompile Include="LibJpeg\jdcoefct.c" />
+    <ClCompile Include="LibJpeg\jdcolor.c" />
+    <ClCompile Include="LibJpeg\jddctmgr.c" />
+    <ClCompile Include="LibJpeg\jdhuff.c" />
+    <ClCompile Include="LibJpeg\jdinput.c" />
+    <ClCompile Include="LibJpeg\jdmainct.c" />
+    <ClCompile Include="LibJpeg\jdmarker.c" />
+    <ClCompile Include="LibJpeg\jdmaster.c" />
+    <ClCompile Include="LibJpeg\jdmerge.c" />
+    <ClCompile Include="LibJpeg\jdpostct.c" />
+    <ClCompile Include="LibJpeg\jdsample.c" />
+    <ClCompile Include="LibJpeg\jdtrans.c" />
+    <ClCompile Include="LibJpeg\jerror.c" />
+    <ClCompile Include="LibJpeg\jfdctflt.c" />
+    <ClCompile Include="LibJpeg\jfdctfst.c" />
+    <ClCompile Include="LibJpeg\jfdctint.c" />
+    <ClCompile Include="LibJpeg\jidctflt.c" />
+    <ClCompile Include="LibJpeg\jidctfst.c" />
+    <ClCompile Include="LibJpeg\jidctint.c" />
+    <ClCompile Include="LibJpeg\jmemmgr.c" />
+    <ClCompile Include="LibJpeg\jmemnobs.c" />
+    <ClCompile Include="LibJpeg\jquant1.c" />
+    <ClCompile Include="LibJpeg\jquant2.c" />
+    <ClCompile Include="LibJpeg\jutils.c" />
+    <ClCompile Include="lodepng.cpp" />
+    <ClCompile Include="main.cpp" />
+    <ClCompile Include="Picture.cpp" />
+    <ClCompile Include="SeamCarver.cpp" />
+    <ClCompile Include="StbImageWrite\stb_image_write.c" />
+    <ClCompile Include="ToScreen.cpp" />
+  </ItemGroup>
+  <ItemGroup>
+    <ClInclude Include="Application.h" />
+    <ClInclude Include="FileTypes.h" />
+    <ClInclude Include="JpegLoader.h" />
+    <ClInclude Include="LibJpeg\jconfig.h" />
+    <ClInclude Include="LibJpeg\jdct.h" />
+    <ClInclude Include="LibJpeg\jerror.h" />
+    <ClInclude Include="LibJpeg\jinclude.h" />
+    <ClInclude Include="LibJpeg\jmemsys.h" />
+    <ClInclude Include="LibJpeg\jmorecfg.h" />
+    <ClInclude Include="LibJpeg\jpegint.h" />
+    <ClInclude Include="LibJpeg\jpeglib.h" />
+    <ClInclude Include="LibJpeg\jversion.h" />
+    <ClInclude Include="lodepng.h" />
+    <ClInclude Include="Picture.h" />
+    <ClInclude Include="SeamCarver.h" />
+    <ClInclude Include="StbImageWrite\stb_image_write.h" />
+    <ClInclude Include="stdafx.h" />
+    <ClInclude Include="ToScreen.h" />
+  </ItemGroup>
+  <ItemGroup>
+    <Text Include="LibJpeg\change.log" />
+    <Text Include="LibJpeg\coderules.txt" />
+    <Text Include="LibJpeg\filelist.txt" />
+    <Text Include="LibJpeg\install.txt" />
+    <Text Include="LibJpeg\jconfig.txt" />
+    <Text Include="LibJpeg\jdosaobj.txt" />
+    <Text Include="LibJpeg\libjpeg.txt" />
+    <Text Include="LibJpeg\structure.txt" />
+    <Text Include="LibJpeg\usage.txt" />
+    <Text Include="LibJpeg\wizard.txt" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="LibJpeg\README" />
+  </ItemGroup>
+  <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
+  <ImportGroup Label="ExtensionTargets">
+  </ImportGroup>
+</Project>

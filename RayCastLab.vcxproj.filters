@@ -1,0 +1,286 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Project ToolsVersion="4.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <ItemGroup>
+    <Filter Include="Source Files">
+      <UniqueIdentifier>{4FC737F1-C7A5-4376-A066-2A32D752A2FF}</UniqueIdentifier>
+      <Extensions>cpp;c;cc;cxx;def;odl;idl;hpj;bat;asm;asmx</Extensions>
+    </Filter>
+    <Filter Include="Header Files">
+      <UniqueIdentifier>{93995380-89BD-4b04-88EB-625FBE52EBFB}</UniqueIdentifier>
+      <Extensions>h;hh;hpp;hxx;hm;inl;inc;xsd</Extensions>
+    </Filter>
+    <Filter Include="Resource Files">
+      <UniqueIdentifier>{67DA6AB6-F800-4c08-8B7A-83BB121AAD01}</UniqueIdentifier>
+      <Extensions>rc;ico;cur;bmp;dlg;rc2;rct;bin;rgs;gif;jpg;jpeg;jpe;resx;tiff;tif;png;wav;mfcribbon-ms</Extensions>
+    </Filter>
+    <Filter Include="Base">
+      <UniqueIdentifier>{7d0586e0-e3aa-440a-b79e-17530d7e0e2b}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Base\img tools">
+      <UniqueIdentifier>{087ded54-206e-419b-9ec0-b0105f3cd80c}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Base\LibJpeg">
+      <UniqueIdentifier>{98c9fd1e-b176-485a-9bcb-6fcb7c12880b}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Base\StbImageWrite">
+      <UniqueIdentifier>{c0e89426-d3c7-4e77-a7ef-7fa5aee85061}</UniqueIdentifier>
+    </Filter>
+  </ItemGroup>
+  <ItemGroup>
+    <ClCompile Include="Application.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="Picture.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="main.cpp">
+      <Filter>Base</Filter>
+    </ClCompile>
+    <ClCompile Include="ToScreen.cpp">
+      <Filter>Base</Filter>
+    </ClCompile>
+    <ClCompile Include="lodepng.cpp">
+      <Filter>Base\img tools</Filter>
+    </ClCompile>
+    <ClCompile Include="LibJpeg\jaricom.c">
+      <Filter>Base\LibJpeg</Filter>
+    </ClCompile>
+    <ClCompile Include="LibJpeg\jcapimin.c">
+      <Filter>Base\LibJpeg</Filter>
+    </ClCompile>
+    <ClCompile Include="LibJpeg\jcapistd.c">
+      <Filter>Base\LibJpeg</Filter>
+    </ClCompile>
+    <ClCompile Include="LibJpeg\jcarith.c">
+      <Filter>Base\LibJpeg</Filter>
+    </ClCompile>
+    <ClCompile Include="LibJpeg\jccoefct.c">
+      <Filter>Base\LibJpeg</Filter>
+    </ClCompile>
+    <ClCompile Include="LibJpeg\jccolor.c">
+      <Filter>Base\LibJpeg</Filter>
+    </ClCompile>
+    <ClCompile Include="LibJpeg\jcdctmgr.c">
+      <Filter>Base\LibJpeg</Filter>
+    </ClCompile>
+    <ClCompile Include="LibJpeg\jchuff.c">
+      <Filter>Base\LibJpeg</Filter>
+    </ClCompile>
+    <ClCompile Include="LibJpeg\jcinit.c">
+      <Filter>Base\LibJpeg</Filter>
+    </ClCompile>
+    <ClCompile Include="LibJpeg\jcmainct.c">
+      <Filter>Base\LibJpeg</Filter>
+    </ClCompile>
+    <ClCompile Include="LibJpeg\jcmarker.c">
+      <Filter>Base\LibJpeg</Filter>
+    </ClCompile>
+    <ClCompile Include="LibJpeg\jcmaster.c">
+      <Filter>Base\LibJpeg</Filter>
+    </ClCompile>
+    <ClCompile Include="LibJpeg\jcomapi.c">
+      <Filter>Base\LibJpeg</Filter>
+    </ClCompile>
+    <ClCompile Include="LibJpeg\jcparam.c">
+      <Filter>Base\LibJpeg</Filter>
+    </ClCompile>
+    <ClCompile Include="LibJpeg\jcprepct.c">
+      <Filter>Base\LibJpeg</Filter>
+    </ClCompile>
+    <ClCompile Include="LibJpeg\jcsample.c">
+      <Filter>Base\LibJpeg</Filter>
+    </ClCompile>
+    <ClCompile Include="LibJpeg\jctrans.c">
+      <Filter>Base\LibJpeg</Filter>
+    </ClCompile>
+    <ClCompile Include="LibJpeg\jdapimin.c">
+      <Filter>Base\LibJpeg</Filter>
+    </ClCompile>
+    <ClCompile Include="LibJpeg\jdapistd.c">
+      <Filter>Base\LibJpeg</Filter>
+    </ClCompile>
+    <ClCompile Include="LibJpeg\jdarith.c">
+      <Filter>Base\LibJpeg</Filter>
+    </ClCompile>
+    <ClCompile Include="LibJpeg\jdatadst.c">
+      <Filter>Base\LibJpeg</Filter>
+    </ClCompile>
+    <ClCompile Include="LibJpeg\jdatasrc.c">
+      <Filter>Base\LibJpeg</Filter>
+    </ClCompile>
+    <ClCompile Include="LibJpeg\jdcoefct.c">
+      <Filter>Base\LibJpeg</Filter>
+    </ClCompile>
+    <ClCompile Include="LibJpeg\jdcolor.c">
+      <Filter>Base\LibJpeg</Filter>
+    </ClCompile>
+    <ClCompile Include="LibJpeg\jddctmgr.c">
+      <Filter>Base\LibJpeg</Filter>
+    </ClCompile>
+    <ClCompile Include="LibJpeg\jdhuff.c">
+      <Filter>Base\LibJpeg</Filter>
+    </ClCompile>
+    <ClCompile Include="LibJpeg\jdinput.c">
+      <Filter>Base\LibJpeg</Filter>
+    </ClCompile>
+    <ClCompile Include="LibJpeg\jdmainct.c">
+      <Filter>Base\LibJpeg</Filter>
+    </ClCompile>
+    <ClCompile Include="LibJpeg\jdmarker.c">
+      <Filter>Base\LibJpeg</Filter>
+    </ClCompile>
+    <ClCompile Include="LibJpeg\jdmaster.c">
+      <Filter>Base\LibJpeg</Filter>
+    </ClCompile>
+    <ClCompile Include="LibJpeg\jdmerge.c">
+      <Filter>Base\LibJpeg</Filter>
+    </ClCompile>
+    <ClCompile Include="LibJpeg\jdpostct.c">
+      <Filter>Base\LibJpeg</Filter>
+    </ClCompile>
+    <ClCompile Include="LibJpeg\jdsample.c">
+      <Filter>Base\LibJpeg</Filter>
+    </ClCompile>
+    <ClCompile Include="LibJpeg\jdtrans.c">
+      <Filter>Base\LibJpeg</Filter>
+    </ClCompile>
+    <ClCompile Include="LibJpeg\jerror.c">
+      <Filter>Base\LibJpeg</Filter>
+    </ClCompile>
+    <ClCompile Include="LibJpeg\jfdctflt.c">
+      <Filter>Base\LibJpeg</Filter>
+    </ClCompile>
+    <ClCompile Include="LibJpeg\jfdctfst.c">
+      <Filter>Base\LibJpeg</Filter>
+    </ClCompile>
+    <ClCompile Include="LibJpeg\jfdctint.c">
+      <Filter>Base\LibJpeg</Filter>
+    </ClCompile>
+    <ClCompile Include="LibJpeg\jidctflt.c">
+      <Filter>Base\LibJpeg</Filter>
+    </ClCompile>
+    <ClCompile Include="LibJpeg\jidctfst.c">
+      <Filter>Base\LibJpeg</Filter>
+    </ClCompile>
+    <ClCompile Include="LibJpeg\jidctint.c">
+      <Filter>Base\LibJpeg</Filter>
+    </ClCompile>
+    <ClCompile Include="LibJpeg\jmemmgr.c">
+      <Filter>Base\LibJpeg</Filter>
+    </ClCompile>
+    <ClCompile Include="LibJpeg\jmemnobs.c">
+      <Filter>Base\LibJpeg</Filter>
+    </ClCompile>
+    <ClCompile Include="LibJpeg\jquant1.c">
+      <Filter>Base\LibJpeg</Filter>
+    </ClCompile>
+    <ClCompile Include="LibJpeg\jquant2.c">
+      <Filter>Base\LibJpeg</Filter>
+    </ClCompile>
+    <ClCompile Include="LibJpeg\jutils.c">
+      <Filter>Base\LibJpeg</Filter>
+    </ClCompile>
+    <ClCompile Include="StbImageWrite\stb_image_write.c">
+      <Filter>Base\StbImageWrite</Filter>
+    </ClCompile>
+    <ClCompile Include="JpegLoader.cpp">
+      <Filter>Base\img tools</Filter>
+    </ClCompile>
+    <ClCompile Include="SeamCarver.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+  </ItemGroup>
+  <ItemGroup>
+    <ClInclude Include="Picture.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="stdafx.h">
+      <Filter>Base</Filter>
+    </ClInclude>
+    <ClInclude Include="ToScreen.h">
+      <Filter>Base</Filter>
+    </ClInclude>
+    <ClInclude Include="lodepng.h">
+      <Filter>Base\img tools</Filter>
+    </ClInclude>
+    <ClInclude Include="LibJpeg\jconfig.h">
+      <Filter>Base\LibJpeg</Filter>
+    </ClInclude>
+    <ClInclude Include="LibJpeg\jdct.h">
+      <Filter>Base\LibJpeg</Filter>
+    </ClInclude>
+    <ClInclude Include="LibJpeg\jerror.h">
+      <Filter>Base\LibJpeg</Filter>
+    </ClInclude>
+    <ClInclude Include="LibJpeg\jinclude.h">
+      <Filter>Base\LibJpeg</Filter>
+    </ClInclude>
+    <ClInclude Include="LibJpeg\jmemsys.h">
+      <Filter>Base\LibJpeg</Filter>
+    </ClInclude>
+    <ClInclude Include="LibJpeg\jmorecfg.h">
+      <Filter>Base\LibJpeg</Filter>
+    </ClInclude>
+    <ClInclude Include="LibJpeg\jpegint.h">
+      <Filter>Base\LibJpeg</Filter>
+    </ClInclude>
+    <ClInclude Include="LibJpeg\jpeglib.h">
+      <Filter>Base\LibJpeg</Filter>
+    </ClInclude>
+    <ClInclude Include="LibJpeg\jversion.h">
+      <Filter>Base\LibJpeg</Filter>
+    </ClInclude>
+    <ClInclude Include="StbImageWrite\stb_image_write.h">
+      <Filter>Base\StbImageWrite</Filter>
+    </ClInclude>
+    <ClInclude Include="FileTypes.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="JpegLoader.h">
+      <Filter>Base\img tools</Filter>
+    </ClInclude>
+    <ClInclude Include="Application.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="SeamCarver.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+  </ItemGroup>
+  <ItemGroup>
+    <Text Include="LibJpeg\change.log">
+      <Filter>Base\LibJpeg</Filter>
+    </Text>
+    <Text Include="LibJpeg\coderules.txt">
+      <Filter>Base\LibJpeg</Filter>
+    </Text>
+    <Text Include="LibJpeg\filelist.txt">
+      <Filter>Base\LibJpeg</Filter>
+    </Text>
+    <Text Include="LibJpeg\install.txt">
+      <Filter>Base\LibJpeg</Filter>
+    </Text>
+    <Text Include="LibJpeg\jconfig.txt">
+      <Filter>Base\LibJpeg</Filter>
+    </Text>
+    <Text Include="LibJpeg\jdosaobj.txt">
+      <Filter>Base\LibJpeg</Filter>
+    </Text>
+    <Text Include="LibJpeg\libjpeg.txt">
+      <Filter>Base\LibJpeg</Filter>
+    </Text>
+    <Text Include="LibJpeg\structure.txt">
+      <Filter>Base\LibJpeg</Filter>
+    </Text>
+    <Text Include="LibJpeg\usage.txt">
+      <Filter>Base\LibJpeg</Filter>
+    </Text>
+    <Text Include="LibJpeg\wizard.txt">
+      <Filter>Base\LibJpeg</Filter>
+    </Text>
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="LibJpeg\README">
+      <Filter>Base\LibJpeg</Filter>
+    </None>
+  </ItemGroup>
+</Project>
