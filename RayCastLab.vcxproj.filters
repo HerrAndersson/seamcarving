@@ -25,6 +25,9 @@
     <Filter Include="Base\StbImageWrite">
       <UniqueIdentifier>{c0e89426-d3c7-4e77-a7ef-7fa5aee85061}</UniqueIdentifier>
     </Filter>
+    <Filter Include="Base\Debug">
+      <UniqueIdentifier>{117e05c7-1bdb-4f5d-a047-365773b1dc78}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="Application.cpp">
@@ -189,6 +192,9 @@
     <ClCompile Include="SeamCarver.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
+    <ClCompile Include="Console.cpp">
+      <Filter>Base\Debug</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Picture.h">
@@ -244,6 +250,9 @@
     </ClInclude>
     <ClInclude Include="SeamCarver.h">
       <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="Console.h">
+      <Filter>Base\Debug</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>

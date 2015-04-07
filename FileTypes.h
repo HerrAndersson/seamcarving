@@ -43,6 +43,6 @@ struct Pixel
 
 	BYTE EnergyToColor()
 	{
-		return (BYTE)(energy % 255);
+		return (BYTE)(energy / 255);
 	}
 };

@@ -78,6 +78,7 @@
   </ItemDefinitionGroup>
   <ItemGroup>
     <ClCompile Include="Application.cpp" />
+    <ClCompile Include="Console.cpp" />
     <ClCompile Include="JpegLoader.cpp" />
     <ClCompile Include="LibJpeg\jaricom.c" />
     <ClCompile Include="LibJpeg\jcapimin.c" />
@@ -134,6 +135,7 @@
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Application.h" />
+    <ClInclude Include="Console.h" />
     <ClInclude Include="FileTypes.h" />
     <ClInclude Include="JpegLoader.h" />
     <ClInclude Include="LibJpeg\jconfig.h" />

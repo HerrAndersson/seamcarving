@@ -2,6 +2,14 @@
 #include "ToScreen.h"
 #include "Application.h"
 
+//#include "Console.h"
+//#include <iostream>
+//#include <fstream>
+//#include <conio.h>
+//#include <stdio.h>
+//#include <cstdlib>
+//#include <ctime>
+
 HINSTANCE				g_hInst					= nullptr;  
 HWND					g_hWnd					= nullptr;
 ToScreen*				Screen					= nullptr;
@@ -15,6 +23,7 @@ void				Update(float deltaTime);
 // Create Direct3D device and swap chain
 HRESULT Init()
 {
+	//RedirectIOToConsole();
 	Screen = new ToScreen();
 	Screen->Init(g_hWnd);
 
