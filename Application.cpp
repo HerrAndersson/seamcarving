@@ -1,4 +1,8 @@
 #include "Application.h"
+#include <iostream>
+
+int removeColumns = 0;
+int removeRows = 10;
 
 Application::Application(ToScreen* scr)
 {
@@ -6,14 +10,12 @@ Application::Application(ToScreen* scr)
 	Screen = scr;
 
 	//pic = new Picture("Pictures/Input/tree.png", PNG);
-	pic = new Picture("Pictures/Input/tower.jpg", JPG);
-	//pic = new Picture("tree.jpg", JPG);
-	//pic = new Picture("sheep.jpg", JPEG);
-	//pic = new Picture("ocean.png", PNG);
+	//pic = new Picture("Pictures/Input/tower.jpg", JPG);
+	//pic = new Picture("Pictures/Input/tree.jpg", JPEG);
+	//pic = new Picture("Pictures/Input/towerSmall.jpg", JPEG);
+	pic = new Picture("Pictures/Input/towerMedium.jpg", JPEG);
 
 	carver = new SeamCarver(pic);
-
-	//carver->RemoveRowsAndColumns(25, 25);
 }
 
 Application::~Application()
@@ -25,17 +27,45 @@ Application::~Application()
 
 void Application::Update(float deltaTime)
 {
+	Clear();
+
+	if (removeColumns > 0)
+	{
+		carver->RemoveColumns(1);
+		removeColumns--;
+	}
+	else if (removeRows > 0)
+	{
+		carver->RemoveRows(1);
+		removeRows--;
+	}
+	else
+	{
+		//pic->AutoResize();
+	}
+
 	for (int x = 0; x < pic->GetWidth(); x++)
 	{
 		for (int y = 0; y < pic->GetHeight(); y++)
 		{
 			Pixel p = pic->GetPixel(x, y);
 			Screen->SetPixelColor(x, y, p.r, p.g, p.b);
-
-			BYTE c = p.EnergyToColor();
-			Screen->SetPixelColor(x, y, c, c, c);
 		}
 	}
 
+	std::cout << pic->GetWidth() << std::endl;
+
+
 	Screen->Update(deltaTime);
+}
+
+void Application::Clear()
+{
+	for (int x = 0; x < SCREEN_WIDTH; x++)
+	{
+		for (int y = 0; y < SCREEN_HEIGHT; y++)
+		{
+			Screen->SetPixelColor(x, y, 0, 0, 0);
+		}
+	}
 }

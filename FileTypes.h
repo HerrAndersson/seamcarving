@@ -14,7 +14,10 @@ struct Point
 {
 	int x, y;
 
-	Point();
+	Point()
+	{
+
+	}
 
 	Point(int x, int y)
 	{

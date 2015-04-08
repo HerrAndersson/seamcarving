@@ -10,14 +10,37 @@ SeamCarver::~SeamCarver()
 	pic = nullptr;
 }
 
+int SeamCarver::FindMin(int v1, int v2, int v3, int& index)
+{
+	int min = v1;
+	index = 1;
+
+	if (v2 < min)
+	{
+		min = v2;
+		index = 2;
+	}
+	if (v3 < min)
+	{
+		min = v3;
+		index = 3;
+	}
+
+	return min;
+}
+
 int SeamCarver::FindMin(int v1, int v2, int v3)
 {
 	int min = v1;
 
 	if (v2 < min)
+	{
 		min = v2;
+	}
 	if (v3 < min)
+	{
 		min = v3;
+	}
 
 	return min;
 }
@@ -54,28 +77,122 @@ Point* SeamCarver::FindVerticalSeam()
 		}
 	}
 
-	int xStart = 0;
-	int value = INF;
+	int x = 0;
+	int minValue = INF;
 
-	for (int i = 0; i < width; i++)
+	//Find x-coordinate in the last row with the lowest energy
+	for (int i = 1; i < width; i++)
 	{
-		if (energy[i][height - 1] < value)
+		if (energy[i][height - 1] < minValue)
 		{
-			value = energy[i][height - 1];
-			xStart = i;
+			minValue = energy[i][height - 1];
+			x = i;
 		}
 	}
 
-	for (int y = height; y >= 0; y--)
+	Point p(x, height - 1);
+	seam[height - 1] = p;
+
+	for (int y = height - 2; y > 0; y--)
 	{
-		//RETRACE
+		int index;
+		int min = FindMin(image[x - 1][y - 1].energy, image[x][y - 1].energy, image[x + 1][y - 1].energy, index);
+		
+		if (index == 1)
+			x = x - 1;
+		if (index == 3)
+			x = x + 1;
+		else
+			x = x;
+
+		Point p(x, y);
+		seam[y] = p;
+
+		if (x == 0)
+			x++;
+		if (x == width - 1)
+			x--;
 	}
+
+	p = Point(x, 0);
+	seam[0] = p;
 
 	return seam;
 }
+
 Point* SeamCarver::FindHorizontalSeam()
 {
-	return nullptr;
+	int height = pic->GetHeight();
+	int width = pic->GetWidth();
+	Point* seam = new Point[width];
+	Pixel** image = pic->GetImage();
+
+	//Holds the "new" energy values used to find a path.
+	int** energy = new int*[width];
+	for (int i = 0; i < width; ++i)
+	{
+		energy[i] = new int[height];
+	}
+
+	for (int y = 0; y < height; y++)
+	{
+		for (int x = 0; x < width; x++)
+		{
+			//If pixel is on the border it keeps its energy.
+			if ((x == 0) || (y == 0) || (x == width - 1) || (y == height - 1))
+			{
+				energy[x][y] = pic->GetPixel(x, y).energy;
+			}
+			//If the pixel is not on the border it has pixels in the row above and the new energy can be calculated
+			else
+			{
+				int min = FindMin(image[x - 1][y - 1].energy, image[x - 1][y].energy, image[x - 1][y + 1].energy);
+				energy[x][y] = image[x][y].energy + min;
+			}
+		}
+	}
+
+	int y = 0;
+	int minValue = INF;
+
+	//Find y-coordinate in the last row with the lowest energy
+	for (int i = 1; i < height; i++)
+	{
+		if (energy[width - 1][i] < minValue)
+		{
+			minValue = energy[width - 1][i];
+			y = i;
+		}
+	}
+
+	Point p(width - 1, y);
+	seam[width - 1] = p;
+
+	for (int x = width - 2; x > 0; x--)
+	{
+		int index;
+		int min = FindMin(image[x - 1][y - 1].energy, image[x - 1][y].energy, image[x - 1][y + 1].energy, index);
+
+		if (index == 1)
+			y = y - 1;
+		if (index == 3)
+			y = y + 1;
+		else
+			y = y;
+
+		Point p(x, y);
+		seam[y] = p;
+
+		if (y == 0)
+			y++;
+		if (y == height - 1)
+			y--;
+	}
+
+	p = Point(0, y);
+	seam[0] = p;
+
+	return seam;
 }
 
 void SeamCarver::ChangePicture(Picture* newPic)
@@ -118,7 +235,7 @@ void SeamCarver::RemoveRows(int rowCount)
 
 	pic->AutoResize();
 }
-void SeamCarver::RemoveColums(int columnCount)
+void SeamCarver::RemoveColumns(int columnCount)
 {
 	for (int i = 0; i < columnCount; i++)
 	{
@@ -127,5 +244,5 @@ void SeamCarver::RemoveColums(int columnCount)
 		delete[] positions;
 	}
 
-	pic->AutoResize();
+	/*pic->AutoResize();*/
 }

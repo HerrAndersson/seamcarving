@@ -14,6 +14,8 @@ private:
 	Picture*		pic;
 	SeamCarver*		carver;
 
+	void Clear();
+
 public:
 
 	Application(ToScreen* scr);
