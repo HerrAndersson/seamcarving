@@ -71,7 +71,7 @@ Point* SeamCarver::FindVerticalSeam()
 			//If the pixel is not on the border it has pixels in the row above and the new energy can be calculated
 			else
 			{
-				int min = FindMin(image[x - 1][y - 1].energy, image[x][y - 1].energy, image[x + 1][y - 1].energy);
+				int min = FindMin(image[x - 1][y + 1].energy, image[x][y + 1].energy, image[x + 1][y + 1].energy);
 				energy[x][y] = image[x][y].energy + min;
 			}
 		}
@@ -116,6 +116,12 @@ Point* SeamCarver::FindVerticalSeam()
 
 	p = Point(x, 0);
 	seam[0] = p;
+
+		for (int i = 0; i < width; i++)
+	{
+		delete[] energy[i];
+	}
+	delete[] energy;
 
 	return seam;
 }
@@ -191,6 +197,12 @@ Point* SeamCarver::FindHorizontalSeam()
 
 	p = Point(0, y);
 	seam[0] = p;
+
+	for (int i = 0; i < width; i++)
+	{
+		delete[] energy[i];
+	}
+	delete[] energy;
 
 	return seam;
 }

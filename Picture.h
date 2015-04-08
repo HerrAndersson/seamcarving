@@ -19,6 +19,9 @@ private:
 	void LoadPNG(string filename);
 	void LoadJPEG(string filename);
 
+	void SavePNG(string path);
+	void SaveJPEG(string path);
+
 	void CreateImageArray(int dimX, int dimY);
 	void CalculateFullEnergy();
 	void ShowSeam(Point* positions, bool rowOrColumn); //Row = true, column = false
@@ -37,5 +40,7 @@ public:
 	Pixel** GetImage();
 
 	void AutoResize();
+
+	void Save(string path, int type);
 };
 

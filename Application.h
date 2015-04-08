@@ -15,6 +15,7 @@ private:
 	SeamCarver*		carver;
 
 	void Clear();
+	void PerformSeamCarving();
 
 public:
 

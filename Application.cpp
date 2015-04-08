@@ -1,8 +1,8 @@
 #include "Application.h"
 #include <iostream>
 
-int removeColumns = 0;
-int removeRows = 10;
+int removeColumns = 10;
+int removeRows = 0;
 
 Application::Application(ToScreen* scr)
 {
@@ -13,7 +13,8 @@ Application::Application(ToScreen* scr)
 	//pic = new Picture("Pictures/Input/tower.jpg", JPG);
 	//pic = new Picture("Pictures/Input/tree.jpg", JPEG);
 	//pic = new Picture("Pictures/Input/towerSmall.jpg", JPEG);
-	pic = new Picture("Pictures/Input/towerMedium.jpg", JPEG);
+	//pic = new Picture("Pictures/Input/towerMedium.jpg", JPEG);
+	pic = new Picture("Pictures/Input/towerMedium.png", PNG);
 
 	carver = new SeamCarver(pic);
 }
@@ -29,20 +30,7 @@ void Application::Update(float deltaTime)
 {
 	Clear();
 
-	if (removeColumns > 0)
-	{
-		carver->RemoveColumns(1);
-		removeColumns--;
-	}
-	else if (removeRows > 0)
-	{
-		carver->RemoveRows(1);
-		removeRows--;
-	}
-	else
-	{
-		//pic->AutoResize();
-	}
+	PerformSeamCarving();
 
 	for (int x = 0; x < pic->GetWidth(); x++)
 	{
@@ -52,9 +40,6 @@ void Application::Update(float deltaTime)
 			Screen->SetPixelColor(x, y, p.r, p.g, p.b);
 		}
 	}
-
-	std::cout << pic->GetWidth() << std::endl;
-
 
 	Screen->Update(deltaTime);
 }
@@ -67,5 +52,24 @@ void Application::Clear()
 		{
 			Screen->SetPixelColor(x, y, 0, 0, 0);
 		}
+	}
+}
+
+void Application::PerformSeamCarving()
+{
+	if (removeColumns > 0)
+	{
+		carver->RemoveColumns(1);
+		removeColumns--;
+	}
+	else if (removeRows > 0)
+	{
+		//carver->RemoveRows(1);
+		//removeRows--;
+	}
+	else
+	{
+		//pic->AutoResize();
+		pic->Save("Pictures/Output/towerMedium.png", PNG);
 	}
 }

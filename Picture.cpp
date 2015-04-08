@@ -66,7 +66,6 @@ void Picture::LoadPNG(string filename)
 			pos += 4;
 		}
 	}
-
 }
 
 void Picture::LoadJPEG(string filename)
@@ -356,4 +355,45 @@ int Picture::GetHeight()
 Pixel** Picture::GetImage()
 {
 	return image;
+}
+
+void Picture::Save(string path, int type)
+{
+	if (type == PNG)
+	{
+		SavePNG(path);
+	}
+	else if (type == JPG || type == JPEG)
+	{
+		SaveJPEG(path);
+	}
+}
+
+void Picture::SavePNG(string path)
+{
+	//When AutoResize works all actual* should be changed
+
+	vector<unsigned char> temp;
+
+	for (int y = 0; y < actualHeight; y++)
+	{
+		for (int x = 0; x < actualWidth; x++)
+		{
+			temp.push_back((unsigned char)image[x][y].r);
+			temp.push_back((unsigned char)image[x][y].g);
+			temp.push_back((unsigned char)image[x][y].b);
+		}
+	}
+
+	unsigned error = encode(path, temp, actualWidth, actualHeight, LCT_RGB);
+
+	if (error)
+	{
+		cout << "Encoder error " << error << ": " << lodepng_error_text(error) << endl;
+	}
+
+}
+void Picture::SaveJPEG(string path)
+{
+
 }
