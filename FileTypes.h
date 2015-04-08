@@ -8,10 +8,19 @@ const int JPEG = 2;
 const int JPG = 2;
 
 const int NEG_INF = -2147000000;
+const int INF     =  2147000000;
 
 struct Point
 {
 	int x, y;
+
+	Point();
+
+	Point(int x, int y)
+	{
+		this->x = x;
+		this->y = y;
+	}
 };
 
 struct Pixel
@@ -43,6 +52,7 @@ struct Pixel
 
 	BYTE EnergyToColor()
 	{
-		return (BYTE)(energy / 255);
+		//return (BYTE)(energy / 255);
+		return (BYTE)(energy / (255*3));  //255^2 - 0 ger max energy för varje färg, tre ggr ger delat med 255*3
 	}
 };

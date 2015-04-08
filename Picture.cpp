@@ -104,6 +104,8 @@ void Picture::DeleteRow(Point* positions)
 	}
 	actualHeight--;
 
+	ShowSeam(positions, true);
+
 	CalculateFullEnergy();
 }
 
@@ -118,7 +120,25 @@ void Picture::DeleteColumn(Point* positions)
 	}
 	actualWidth--;
 
+	ShowSeam(positions, false);
+
 	CalculateFullEnergy();
+}
+
+void Picture::ShowSeam(Point* positions, bool rowOrColumn)
+{
+	int length = height;
+	if (rowOrColumn)
+		length = width;
+
+	for (int i = 0; i < length; i++)
+	{
+		Pixel current = image[positions->x][positions->y];
+		Pixel temp(255, 0, 0);
+		image[positions->x][positions->y] = temp;
+	}
+	
+	Sleep(10000);
 }
 
 void Picture::AutoResize()

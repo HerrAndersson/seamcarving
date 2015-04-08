@@ -5,12 +5,15 @@ Application::Application(ToScreen* scr)
 	_CrtSetDbgFlag(_CRTDBG_ALLOC_MEM_DF | _CRTDBG_LEAK_CHECK_DF | _CRTDBG_CHECK_ALWAYS_DF);
 	Screen = scr;
 
-	pic = new Picture("Pictures/Input/tree.png", PNG);
+	//pic = new Picture("Pictures/Input/tree.png", PNG);
+	pic = new Picture("Pictures/Input/tower.jpg", JPG);
 	//pic = new Picture("tree.jpg", JPG);
 	//pic = new Picture("sheep.jpg", JPEG);
 	//pic = new Picture("ocean.png", PNG);
 
 	carver = new SeamCarver(pic);
+
+	//carver->RemoveRowsAndColumns(25, 25);
 }
 
 Application::~Application()
@@ -29,8 +32,8 @@ void Application::Update(float deltaTime)
 			Pixel p = pic->GetPixel(x, y);
 			Screen->SetPixelColor(x, y, p.r, p.g, p.b);
 
-			//BYTE c = pic->GetPixel(x, y).EnergyToColor();
-			//Screen->SetPixelColor(x, y, c, c, c);
+			BYTE c = p.EnergyToColor();
+			Screen->SetPixelColor(x, y, c, c, c);
 		}
 	}
 

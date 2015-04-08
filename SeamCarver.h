@@ -10,6 +10,8 @@ private:
 	Point* FindVerticalSeam();
 	Point* FindHorizontalSeam();
 
+	int FindMin(int v1, int v2, int v3);
+
 public:
 	SeamCarver(Picture* pic);
 	virtual ~SeamCarver();

@@ -21,6 +21,7 @@ private:
 
 	void CreateImageArray(int dimX, int dimY);
 	void CalculateFullEnergy();
+	void ShowSeam(Point* positions, bool rowOrColumn); //Row = true, column = false
 
 public:
 

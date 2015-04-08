@@ -1,6 +1,5 @@
 #include "SeamCarver.h"
 
-
 SeamCarver::SeamCarver(Picture* pic)
 {
 	this->pic = pic;
@@ -11,10 +10,68 @@ SeamCarver::~SeamCarver()
 	pic = nullptr;
 }
 
+int SeamCarver::FindMin(int v1, int v2, int v3)
+{
+	int min = v1;
+
+	if (v2 < min)
+		min = v2;
+	if (v3 < min)
+		min = v3;
+
+	return min;
+}
+
 Point* SeamCarver::FindVerticalSeam()
 {
-	//Söka med ACTUAL HEIGHT, inte height
-	return nullptr;
+	int height = pic->GetHeight();
+	int width = pic->GetWidth();
+	Point* seam = new Point[height];
+	Pixel** image = pic->GetImage();
+
+	//Holds the "new" energy values used to find a path.
+	int** energy = new int*[width];
+	for (int i = 0; i < width; ++i)
+	{
+		energy[i] = new int[height];
+	}
+
+	for (int x = 0; x < width; x++)
+	{
+		for (int y = 0; y < height; y++)
+		{
+			//If pixel is on the border it keeps its energy.
+			if ((x == 0) || (y == 0) || (x == width - 1) || (y == height - 1))
+			{
+				energy[x][y] = pic->GetPixel(x, y).energy;
+			}
+			//If the pixel is not on the border it has pixels in the row above and the new energy can be calculated
+			else
+			{
+				int min = FindMin(image[x - 1][y - 1].energy, image[x][y - 1].energy, image[x + 1][y - 1].energy);
+				energy[x][y] = image[x][y].energy + min;
+			}
+		}
+	}
+
+	int xStart = 0;
+	int value = INF;
+
+	for (int i = 0; i < width; i++)
+	{
+		if (energy[i][height - 1] < value)
+		{
+			value = energy[i][height - 1];
+			xStart = i;
+		}
+	}
+
+	for (int y = height; y >= 0; y--)
+	{
+		//RETRACE
+	}
+
+	return seam;
 }
 Point* SeamCarver::FindHorizontalSeam()
 {
@@ -47,6 +104,8 @@ void SeamCarver::RemoveRowsAndColumns(int rowCount, int columnCount)
 			columnCount--;
 		}
 	}
+
+	pic->AutoResize();
 }
 void SeamCarver::RemoveRows(int rowCount)
 {
@@ -56,6 +115,8 @@ void SeamCarver::RemoveRows(int rowCount)
 		pic->DeleteRow(positions);
 		delete[] positions;
 	}
+
+	pic->AutoResize();
 }
 void SeamCarver::RemoveColums(int columnCount)
 {
@@ -65,4 +126,6 @@ void SeamCarver::RemoveColums(int columnCount)
 		pic->DeleteColumn(positions);
 		delete[] positions;
 	}
+
+	pic->AutoResize();
 }
