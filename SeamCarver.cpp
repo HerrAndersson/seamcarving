@@ -142,7 +142,7 @@ Point* SeamCarver::FindVerticalSeam()
 
 	p = Point(x, 0);
 	seam[0] = p;
-
+//
 	for (int i = 0; i < height; i++)
 	{
 		cout << seam[i].x << " " << seam[i].y << endl;
