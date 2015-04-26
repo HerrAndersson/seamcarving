@@ -219,12 +219,6 @@ void Picture::CalculateFullEnergy()
 		xb = image[x + 1][yt].b - image[x - 1][yt].b;
 		xEnergy = (int)(pow(xr, 2) + pow(xg, 2) + pow(xb, 2));
 
-		//OMVÄND ORDNING ENLIGT http://www.cs.princeton.edu/courses/archive/spr13/cos226/assignments/seamCarving.html
-		//Implementerat, utkommenterat = gammalt
-		//yr = image[x][yt + 1].r - image[x][actualHeight - 1].r;
-		//yg = image[x][yt + 1].g - image[x][actualHeight - 1].g;
-		//yb = image[x][yt + 1].b - image[x][actualHeight - 1].b;
-
 		yr = image[x][actualHeight - 1].r - image[x][yt + 1].r;
 		yg = image[x][actualHeight - 1].g - image[x][yt + 1].g;
 		yb = image[x][actualHeight - 1].b - image[x][yt + 1].b;
@@ -243,11 +237,6 @@ void Picture::CalculateFullEnergy()
 		xb = image[x + 1][yt].b - image[x - 1][yt].b;
 		xEnergy = (int)(pow(xr, 2) + pow(xg, 2) + pow(xb, 2));
 
-		//Old, wrong
-		//yr = image[x][yt].r - image[x][actualHeight - 2].r;
-		//yg = image[x][yt].g - image[x][actualHeight - 2].g;
-		//yb = image[x][yt].b - image[x][actualHeight - 2].b;
-
 		yr = image[x][actualHeight - 2].r - image[x][0].r;
 		yg = image[x][actualHeight - 2].g - image[x][0].g;
 		yb = image[x][actualHeight - 2].b - image[x][0].b;
@@ -261,11 +250,6 @@ void Picture::CalculateFullEnergy()
 	xt = actualWidth - 1;
 	for (int y = 1; y < actualHeight - 1; y++)
 	{
-		//Old
-		//xr = image[0][y].r - image[xt - 1][y].r;
-		//xg = image[0][y].g - image[xt - 1][y].g;
-		//xb = image[0][y].b - image[xt - 1][y].b;
-
 		xr = image[xt - 1][y].r - image[0][y].r;
 		xg = image[xt - 1][y].g - image[0][y].g;
 		xb = image[xt - 1][y].b - image[0][y].b;
@@ -284,10 +268,6 @@ void Picture::CalculateFullEnergy()
 	xt = 0;
 	for (int y = 1; y < actualHeight - 1; y++)
 	{
-		//xr = image[xt + 1][y].r - image[actualWidth - 1][y].r;
-		//xg = image[xt + 1][y].g - image[actualWidth - 1][y].g;
-		//xb = image[xt + 1][y].b - image[actualWidth - 1][y].b;
-
 		xr = image[actualWidth - 1][y].r - image[xt + 1][y].r;
 		xg = image[actualWidth - 1][y].g - image[xt + 1][y].g;
 		xb = image[actualWidth - 1][y].b - image[xt + 1][y].b;
@@ -304,18 +284,10 @@ void Picture::CalculateFullEnergy()
 
 	//CORNERS
 	//Top left. 6
-	//xr = image[1][0].r - image[actualWidth - 1][0].r;
-	//xg = image[1][0].g - image[actualWidth - 1][0].g;
-	//xb = image[1][0].b - image[actualWidth - 1][0].b;
-
 	xr = image[actualWidth - 1][0].r - image[1][0].r;
 	xg = image[actualWidth - 1][0].g - image[1][0].g;
 	xb = image[actualWidth - 1][0].b - image[1][0].b;
 	xEnergy = (int)(pow(xr, 2) + pow(xg, 2) + pow(xb, 2));
-
-	//yr = image[0][1].r - image[0][actualHeight - 1].r;
-	//yg = image[0][1].g - image[0][actualHeight - 1].g;
-	//yb = image[0][1].b - image[0][actualHeight - 1].b;
 
 	yr = image[0][actualHeight - 1].r - image[0][1].r;
 	yg = image[0][actualHeight - 1].g - image[0][1].g;
@@ -326,18 +298,10 @@ void Picture::CalculateFullEnergy()
 	image[0][0].energy = totalEnergy;
 
 	//Top right. 7
-	//xr = image[0][0].r - image[actualWidth - 2][0].r;
-	//xg = image[0][0].g - image[actualWidth - 2][0].g;
-	//xb = image[0][0].b - image[actualWidth - 2][0].b;
-
 	xr = image[actualWidth - 2][0].r - image[0][0].r;
 	xg = image[actualWidth - 2][0].g - image[0][0].g;
 	xb = image[actualWidth - 2][0].b - image[0][0].b;
 	xEnergy = (int)(pow(xr, 2) + pow(xg, 2) + pow(xb, 2));
-
-	//yr = image[actualWidth - 1][1].r - image[actualWidth - 1][actualHeight - 1].r;
-	//yg = image[actualWidth - 1][1].g - image[actualWidth - 1][actualHeight - 1].g;
-	//yb = image[actualWidth - 1][1].b - image[actualWidth - 1][actualHeight - 1].b;
 
 	yr = image[actualWidth - 1][actualHeight - 1].r - image[actualWidth - 1][1].r;
 	yg = image[actualWidth - 1][actualHeight - 1].g - image[actualWidth - 1][1].g;
@@ -348,18 +312,10 @@ void Picture::CalculateFullEnergy()
 	image[actualWidth - 1][0].energy = totalEnergy;
 
 	//Bottom left. 8
-	//xr = image[1][actualHeight - 1].r - image[actualWidth - 1][actualHeight - 1].r;
-	//xg = image[1][actualHeight - 1].g - image[actualWidth - 1][actualHeight - 1].g;
-	//xb = image[1][actualHeight - 1].b - image[actualWidth - 1][actualHeight - 1].b;
-
 	xr = image[actualWidth - 1][actualHeight - 1].r - image[1][actualHeight - 1].r;
 	xg = image[actualWidth - 1][actualHeight - 1].g - image[1][actualHeight - 1].g;
 	xb = image[actualWidth - 1][actualHeight - 1].b - image[1][actualHeight - 1].b;
 	xEnergy = (int)(pow(xr, 2) + pow(xg, 2) + pow(xb, 2));
-
-	//yr = image[0][0].r - image[0][actualHeight - 2].r;
-	//yg = image[0][0].g - image[0][actualHeight - 2].g;
-	//yb = image[0][0].b - image[0][actualHeight - 2].b;
 
 	yr = image[0][actualHeight - 2].r - image[0][0].r;
 	yg = image[0][actualHeight - 2].g - image[0][0].g;
@@ -370,18 +326,10 @@ void Picture::CalculateFullEnergy()
 	image[0][actualHeight - 1].energy = totalEnergy;
 
 	//Bottom right. 9
-	//xr = image[0][actualHeight - 1].r - image[actualWidth - 2][actualHeight - 1].r;
-	//xg = image[0][actualHeight - 1].g - image[actualWidth - 2][actualHeight - 1].g;
-	//xb = image[0][actualHeight - 1].b - image[actualWidth - 2][actualHeight - 1].b;
-
 	xr = image[actualWidth - 2][actualHeight - 1].r - image[0][actualHeight - 1].r;
 	xg = image[actualWidth - 2][actualHeight - 1].g - image[0][actualHeight - 1].g;
 	xb = image[actualWidth - 2][actualHeight - 1].b - image[0][actualHeight - 1].b;
 	xEnergy = (int)(pow(xr, 2) + pow(xg, 2) + pow(xb, 2));
-
-	//yr = image[actualWidth - 1][0].r - image[actualWidth - 1][actualHeight - 2].r;
-	//yg = image[actualWidth - 1][0].g - image[actualWidth - 1][actualHeight - 2].g;
-	//yb = image[actualWidth - 1][0].b - image[actualWidth - 1][actualHeight - 2].b;
 
 	yr = image[actualWidth - 1][actualHeight - 2].r - image[actualWidth - 1][0].r;
 	yg = image[actualWidth - 1][actualHeight - 2].g - image[actualWidth - 1][0].g;

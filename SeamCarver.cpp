@@ -94,81 +94,85 @@ Point* SeamCarver::FindVerticalSeam()
 		}
 	}
 
-	int x = 0;
+	int xPos = 0;
 	int minValue = INF;
 
 	//Find x-coordinate in the last row with the lowest energy
 	for (int i = 0; i < width; i++)
 	{
 		int e = energy[i][height - 1];
-		if (e < minValue)
+		if (e <= minValue)
 		{
 			minValue = e;
-			x = i;
+			xPos = i;
 		}
 	}
 
-	//Retrace
-	Point p(x, height - 1);
-	seam[height - 1] = p;
 
-	for (int y = height - 2; y > 0; y--)
+	//KOLLA ORDNINGEN HÄR!!! xPos fås ovan, ändras direkt nedan innan den från ovan används?
+
+	//Retrace
+
+	seam[height - 1] = Point(xPos, height - 1);
+
+	for (int yPos = height - 2; yPos >= 0; yPos--)
 	{
 		int min;
 		int index;
 
-		if (x == 0)
-			min = FindMin(INF, energy[x][y - 1], energy[x + 1][y - 1], index);
-		else if (x == width - 1)
-			min = FindMin(energy[x - 1][y - 1], energy[x][y - 1], INF, index);
+		if (xPos == 0)
+			min = FindMin(INF, energy[xPos][yPos - 1], energy[xPos + 1][yPos - 1], index);
+		else if (xPos == width - 1)
+			min = FindMin(energy[xPos - 1][yPos - 1], energy[xPos][yPos - 1], INF, index);
 		else
-			min = FindMin(energy[x - 1][y - 1], energy[x][y - 1], energy[x + 1][y - 1], index);
+			min = FindMin(energy[xPos - 1][yPos - 1], energy[xPos][yPos - 1], energy[xPos + 1][yPos - 1], index);
 		
 		if (index == 1)
-			x = x - 1;
+			xPos = xPos - 1;
 		if (index == 3)
-			x = x + 1;
+			xPos = xPos + 1;
 		else
-			x = x;
+			xPos = xPos;
 
-		if (x < 0)
-			x = 0;
-		if (x > width - 1)
-			x = width - 1;
+		if (xPos < 0)
+			xPos = 0;
+		if (xPos > width - 1)
+			xPos = width - 1;
 
-		Point p(x, y);
-		seam[y] = p;
+		seam[yPos] = Point(xPos, yPos);
+
+		//cout << seam[yPos].x << " " << seam[yPos].y << endl;
 	}
 
-	p = Point(x, 0);
-	seam[0] = p;
+	//Point p = Point(xPos, 0);
+	//seam[0] = p;
 //
-	for (int i = 0; i < height; i++)
+	for (int i = height - 1; i >= 0; i--)
 	{
 		cout << seam[i].x << " " << seam[i].y << endl;
 	}
 
 	cout << endl;
 
-	ofstream myfile;
-	myfile.open("energySEAM.txt");
+	//ofstream myfile;
+	//myfile.open("energySEAM.txt");
 
-	for (int y = 0; y < pic->GetHeight(); y++)
-	{
-		for (int x = 0; x < pic->GetWidth(); x++)
-		{
-			myfile << energy[x][y];
-			for (int i = 0; i < 12 - GetNumberOfDigits(energy[x][y]); i++)
-			{
-				myfile << " ";
-			}
-		}
-		myfile << endl << endl << endl;
-	}
+	//for (int y = 0; y < pic->GetHeight(); y++)
+	//{
+	//	for (int x = 0; x < pic->GetWidth(); x++)
+	//	{
+	//		myfile << energy[x][y];
+	//		for (int i = 0; i < 12 - GetNumberOfDigits(energy[x][y]); i++)
+	//		{
+	//			myfile << " ";
+	//		}
+	//	}
+	//	myfile << endl << endl << endl;
+	//}
 
-	myfile.close();
+	//myfile.close();
 
-	system("pause");
+	//system("pause");
 
 
 
@@ -186,88 +190,90 @@ Point* SeamCarver::FindVerticalSeam()
 
 Point* SeamCarver::FindHorizontalSeam()
 {
+	//Broken, check vertical when done
+
 	int height = pic->GetHeight();
 	int width = pic->GetWidth();
 	Point* seam = new Point[width];
 	Pixel** image = pic->GetImage();
 
-	//Holds the "new" energy values used to find a path.
-	int** energy = new int*[width];
-	for (int i = 0; i < width; ++i)
-	{
-		energy[i] = new int[height];
-	}
+	////Holds the "new" energy values used to find a path.
+	//int** energy = new int*[width];
+	//for (int i = 0; i < width; ++i)
+	//{
+	//	energy[i] = new int[height];
+	//}
 
-	for (int y = 0; y < height; y++)
-	{
-		for (int x = 0; x < width; x++)
-		{
-			//If pixel is on the border it keeps its energy.
-			if ((x == 0) || (y == 0) || (x == width - 1) || (y == height - 1))
-			{
-				energy[x][y] = pic->GetPixel(x, y).energy;
-			}
-			//If the pixel is not on the border it has pixels in the row above and the new energy can be calculated
-			else
-			{
-				int min = FindMin(image[x - 1][y - 1].energy, image[x - 1][y].energy, image[x - 1][y + 1].energy);
-				energy[x][y] = image[x][y].energy + min;
-			}
-		}
-	}
+	//for (int y = 0; y < height; y++)
+	//{
+	//	for (int x = 0; x < width; x++)
+	//	{
+	//		//If pixel is on the border it keeps its energy.
+	//		if ((x == 0) || (y == 0) || (x == width - 1) || (y == height - 1))
+	//		{
+	//			energy[x][y] = pic->GetPixel(x, y).energy;
+	//		}
+	//		//If the pixel is not on the border it has pixels in the row above and the new energy can be calculated
+	//		else
+	//		{
+	//			int min = FindMin(image[x - 1][y - 1].energy, image[x - 1][y].energy, image[x - 1][y + 1].energy);
+	//			energy[x][y] = image[x][y].energy + min;
+	//		}
+	//	}
+	//}
 
-	int y = 0;
-	int minValue = INF;
+	//int y = 0;
+	//int minValue = INF;
 
-	//Find y-coordinate in the last row with the lowest energy
-	for (int i = 1; i < height; i++)
-	{
-		if (energy[width - 1][i] < minValue)
-		{
-			minValue = energy[width - 1][i];
-			y = i;
-		}
-	}
+	////Find y-coordinate in the last row with the lowest energy
+	//for (int i = 1; i < height; i++)
+	//{
+	//	if (energy[width - 1][i] < minValue)
+	//	{
+	//		minValue = energy[width - 1][i];
+	//		y = i;
+	//	}
+	//}
 
-	Point p(width - 1, y);
-	seam[width - 1] = p;
+	//Point p(width - 1, y);
+	//seam[width - 1] = p;
 
-	for (int x = width - 2; x > 0; x--)
-	{
-		int min;
-		int index;
+	//for (int x = width - 2; x > 0; x--)
+	//{
+	//	int min;
+	//	int index;
 
-		if (y == 0)
-			min = FindMin(INF, image[x - 1][y].energy, image[x - 1][y + 1].energy, index);
-		else if (y == height - 1)
-			min = FindMin(image[x - 1][y - 1].energy, image[x - 1][y].energy, INF, index);
-		else
-			min = FindMin(image[x - 1][y - 1].energy, image[x - 1][y].energy, image[x - 1][y + 1].energy, index);
+	//	if (y == 0)
+	//		min = FindMin(INF, image[x - 1][y].energy, image[x - 1][y + 1].energy, index);
+	//	else if (y == height - 1)
+	//		min = FindMin(image[x - 1][y - 1].energy, image[x - 1][y].energy, INF, index);
+	//	else
+	//		min = FindMin(image[x - 1][y - 1].energy, image[x - 1][y].energy, image[x - 1][y + 1].energy, index);
 
-		if (index == 1)
-			y = y - 1;
-		if (index == 3)
-			y = y + 1;
-		else
-			y = y;
+	//	if (index == 1)
+	//		y = y - 1;
+	//	if (index == 3)
+	//		y = y + 1;
+	//	else
+	//		y = y;
 
-		Point p(x, y);
-		seam[y] = p;
+	//	Point p(x, y);
+	//	seam[y] = p;
 
-		if (y == 0)
-			y++;
-		if (y == height - 1)
-			y--;
-	}
+	//	if (y == 0)
+	//		y++;
+	//	if (y == height - 1)
+	//		y--;
+	//}
 
-	p = Point(0, y);
-	seam[0] = p;
+	//p = Point(0, y);
+	//seam[0] = p;
 
-	for (int i = 0; i < width; i++)
-	{
-		delete[] energy[i];
-	}
-	delete[] energy;
+	//for (int i = 0; i < width; i++)
+	//{
+	//	delete[] energy[i];
+	//}
+	//delete[] energy;
 
 	return seam;
 }

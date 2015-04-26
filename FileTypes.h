@@ -3,9 +3,9 @@
 #include "stdafx.h"
 using namespace std;
 
-const int PNG = 1;
+const int PNG =  1;
 const int JPEG = 2;
-const int JPG = 2;
+const int JPG =  2;
 
 const int NEG_INF = -2147000000;
 const int INF     =  2147000000;

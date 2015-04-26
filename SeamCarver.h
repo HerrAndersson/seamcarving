@@ -1,6 +1,9 @@
 #pragma once
 #include "FileTypes.h"
 #include "Picture.h"
+
+using namespace std;
+
 class SeamCarver
 {
 private:
