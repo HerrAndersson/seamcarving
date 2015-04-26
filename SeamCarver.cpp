@@ -1,4 +1,6 @@
 #include "SeamCarver.h"
+#include <iostream>
+#include <fstream>
 
 SeamCarver::SeamCarver(Picture* pic)
 {
@@ -45,6 +47,11 @@ int SeamCarver::FindMin(int v1, int v2, int v3)
 	return min;
 }
 
+int SeamCarver::GetNumberOfDigits(int i)
+{
+	return i > 0 ? (int)log10((double)i) + 1 : 1;
+}
+
 Point* SeamCarver::FindVerticalSeam()
 {
 	int height = pic->GetHeight();
@@ -63,15 +70,25 @@ Point* SeamCarver::FindVerticalSeam()
 	{
 		for (int y = 0; y < height; y++)
 		{
-			//If pixel is on the border it keeps its energy.
-			if ((x == 0) || (y == 0) || (x == width - 1) || (y == height - 1))
-			{
+			//Följ: http://blogs.techsmith.com/inside-techsmith/seam-carving/
+
+
+			//If pixel is on the top border it keeps its energy
+			if (y == 0)
 				energy[x][y] = pic->GetPixel(x, y).energy;
-			}
-			//If the pixel is not on the border it has pixels in the row above and the new energy can be calculated
+
+			//If the pixel is not on the top border it has pixels in the row above and the new energy can be calculated
 			else
 			{
-				int min = FindMin(image[x - 1][y + 1].energy, image[x][y + 1].energy, image[x + 1][y + 1].energy);
+				int min;
+
+				if (x == 0)
+					min = FindMin(INF, image[x][y - 1].energy, image[x + 1][y - 1].energy);
+				else if (x == width - 1)
+					min = FindMin(image[x - 1][y - 1].energy, image[x][y - 1].energy, INF);
+				else
+					min = FindMin(image[x - 1][y - 1].energy, image[x][y - 1].energy, image[x + 1][y - 1].energy);
+					
 				energy[x][y] = image[x][y].energy + min;
 			}
 		}
@@ -81,22 +98,31 @@ Point* SeamCarver::FindVerticalSeam()
 	int minValue = INF;
 
 	//Find x-coordinate in the last row with the lowest energy
-	for (int i = 1; i < width; i++)
+	for (int i = 0; i < width; i++)
 	{
-		if (energy[i][height - 1] < minValue)
+		int e = energy[i][height - 1];
+		if (e < minValue)
 		{
-			minValue = energy[i][height - 1];
+			minValue = e;
 			x = i;
 		}
 	}
 
+	//Retrace
 	Point p(x, height - 1);
 	seam[height - 1] = p;
 
 	for (int y = height - 2; y > 0; y--)
 	{
+		int min;
 		int index;
-		int min = FindMin(image[x - 1][y - 1].energy, image[x][y - 1].energy, image[x + 1][y - 1].energy, index);
+
+		if (x == 0)
+			min = FindMin(INF, energy[x][y - 1], energy[x + 1][y - 1], index);
+		else if (x == width - 1)
+			min = FindMin(energy[x - 1][y - 1], energy[x][y - 1], INF, index);
+		else
+			min = FindMin(energy[x - 1][y - 1], energy[x][y - 1], energy[x + 1][y - 1], index);
 		
 		if (index == 1)
 			x = x - 1;
@@ -105,19 +131,51 @@ Point* SeamCarver::FindVerticalSeam()
 		else
 			x = x;
 
+		if (x < 0)
+			x = 0;
+		if (x > width - 1)
+			x = width - 1;
+
 		Point p(x, y);
 		seam[y] = p;
-
-		if (x == 0)
-			x++;
-		if (x == width - 1)
-			x--;
 	}
 
 	p = Point(x, 0);
 	seam[0] = p;
 
-		for (int i = 0; i < width; i++)
+	for (int i = 0; i < height; i++)
+	{
+		cout << seam[i].x << " " << seam[i].y << endl;
+	}
+
+	cout << endl;
+
+	ofstream myfile;
+	myfile.open("energySEAM.txt");
+
+	for (int y = 0; y < pic->GetHeight(); y++)
+	{
+		for (int x = 0; x < pic->GetWidth(); x++)
+		{
+			myfile << energy[x][y];
+			for (int i = 0; i < 12 - GetNumberOfDigits(energy[x][y]); i++)
+			{
+				myfile << " ";
+			}
+		}
+		myfile << endl << endl << endl;
+	}
+
+	myfile.close();
+
+	system("pause");
+
+
+
+
+
+
+	for (int i = 0; i < width; i++)
 	{
 		delete[] energy[i];
 	}
@@ -176,8 +234,15 @@ Point* SeamCarver::FindHorizontalSeam()
 
 	for (int x = width - 2; x > 0; x--)
 	{
+		int min;
 		int index;
-		int min = FindMin(image[x - 1][y - 1].energy, image[x - 1][y].energy, image[x - 1][y + 1].energy, index);
+
+		if (y == 0)
+			min = FindMin(INF, image[x - 1][y].energy, image[x - 1][y + 1].energy, index);
+		else if (y == height - 1)
+			min = FindMin(image[x - 1][y - 1].energy, image[x - 1][y].energy, INF, index);
+		else
+			min = FindMin(image[x - 1][y - 1].energy, image[x - 1][y].energy, image[x - 1][y + 1].energy, index);
 
 		if (index == 1)
 			y = y - 1;

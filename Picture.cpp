@@ -94,6 +94,10 @@ void Picture::LoadJPEG(string filename)
 
 void Picture::DeleteRow(Point* positions)
 {
+	//Funkar inte, pixlarna uppdateras vid funktionens slut
+	//ShowSeam(positions, false);
+	//Sleep(1000);
+
 	for (int i = 0; i < actualWidth; i++)
 	{
 		for (int j = positions[i].y; j < actualHeight - 1; j++)
@@ -103,11 +107,15 @@ void Picture::DeleteRow(Point* positions)
 	}
 	actualHeight--;
 
-	//CalculateFullEnergy();
+	CalculateFullEnergy();
 }
 
 void Picture::DeleteColumn(Point* positions)
 {
+	//Funkar inte, pixlarna uppdateras vid funktionens slut
+	//ShowSeam(positions, false);
+	//Sleep(1000);
+
 	for (int i = 0; i < actualHeight; i++)
 	{
 		for (int j = positions[i].x; j < actualWidth - 1; j++)
@@ -128,9 +136,9 @@ void Picture::ShowSeam(Point* positions, bool rowOrColumn)
 
 	for (int i = 0; i < length; i++)
 	{
-		image[positions->x][positions->y].r = 255;
-		image[positions->x][positions->y].g = 0;
-		image[positions->x][positions->y].b = 0;
+		image[positions[i].x][positions[i].y].r = 255;
+		image[positions[i].x][positions[i].y].g = 0;
+		image[positions[i].x][positions[i].y].b = 0;
 	}
 }
 
@@ -144,9 +152,11 @@ void Picture::AutoResize()
 
 	for (int i = 0; i < actualWidth; i++)
 	{
-		for (int j = 0; j < actualHeight; i++)
+		for (int j = 0; j < actualHeight; j++)
 		{
-			newImage[i][j] = image[i][j];
+			Pixel p = Pixel(image[i][j].r, image[i][j].g, image[i][j].b);
+			p.energy = image[i][j].energy;
+			newImage[i][j] = p;
 		}
 	}
 
@@ -209,9 +219,15 @@ void Picture::CalculateFullEnergy()
 		xb = image[x + 1][yt].b - image[x - 1][yt].b;
 		xEnergy = (int)(pow(xr, 2) + pow(xg, 2) + pow(xb, 2));
 
-		yr = image[x][yt + 1].r - image[x][actualHeight - 1].r;
-		yg = image[x][yt + 1].g - image[x][actualHeight - 1].g;
-		yb = image[x][yt + 1].b - image[x][actualHeight - 1].b;
+		//OMVÄND ORDNING ENLIGT http://www.cs.princeton.edu/courses/archive/spr13/cos226/assignments/seamCarving.html
+		//Implementerat, utkommenterat = gammalt
+		//yr = image[x][yt + 1].r - image[x][actualHeight - 1].r;
+		//yg = image[x][yt + 1].g - image[x][actualHeight - 1].g;
+		//yb = image[x][yt + 1].b - image[x][actualHeight - 1].b;
+
+		yr = image[x][actualHeight - 1].r - image[x][yt + 1].r;
+		yg = image[x][actualHeight - 1].g - image[x][yt + 1].g;
+		yb = image[x][actualHeight - 1].b - image[x][yt + 1].b;
 		yEnergy = (int)(pow(yr, 2) + pow(yg, 2) + pow(yb, 2));
 
 		totalEnergy = xEnergy + yEnergy;
@@ -227,9 +243,14 @@ void Picture::CalculateFullEnergy()
 		xb = image[x + 1][yt].b - image[x - 1][yt].b;
 		xEnergy = (int)(pow(xr, 2) + pow(xg, 2) + pow(xb, 2));
 
-		yr = image[x][yt].r - image[x][actualHeight - 2].r;
-		yg = image[x][yt].g - image[x][actualHeight - 2].g;
-		yb = image[x][yt].b - image[x][actualHeight - 2].b;
+		//Old, wrong
+		//yr = image[x][yt].r - image[x][actualHeight - 2].r;
+		//yg = image[x][yt].g - image[x][actualHeight - 2].g;
+		//yb = image[x][yt].b - image[x][actualHeight - 2].b;
+
+		yr = image[x][actualHeight - 2].r - image[x][0].r;
+		yg = image[x][actualHeight - 2].g - image[x][0].g;
+		yb = image[x][actualHeight - 2].b - image[x][0].b;
 		yEnergy = (int)(pow(yr, 2) + pow(yg, 2) + pow(yb, 2));
 
 		totalEnergy = xEnergy + yEnergy;
@@ -240,9 +261,14 @@ void Picture::CalculateFullEnergy()
 	xt = actualWidth - 1;
 	for (int y = 1; y < actualHeight - 1; y++)
 	{
-		xr = image[0][y].r - image[xt - 1][y].r;
-		xg = image[0][y].g - image[xt - 1][y].g;
-		xb = image[0][y].b - image[xt - 1][y].b;
+		//Old
+		//xr = image[0][y].r - image[xt - 1][y].r;
+		//xg = image[0][y].g - image[xt - 1][y].g;
+		//xb = image[0][y].b - image[xt - 1][y].b;
+
+		xr = image[xt - 1][y].r - image[0][y].r;
+		xg = image[xt - 1][y].g - image[0][y].g;
+		xb = image[xt - 1][y].b - image[0][y].b;
 		xEnergy = (int)(pow(xr, 2) + pow(xg, 2) + pow(xb, 2));
 
 		yr = image[xt][y + 1].r - image[xt][y - 1].r;
@@ -258,9 +284,13 @@ void Picture::CalculateFullEnergy()
 	xt = 0;
 	for (int y = 1; y < actualHeight - 1; y++)
 	{
-		xr = image[xt + 1][y].r - image[actualWidth - 1][y].r;
-		xg = image[xt + 1][y].g - image[actualWidth - 1][y].g;
-		xb = image[xt + 1][y].b - image[actualWidth - 1][y].b;
+		//xr = image[xt + 1][y].r - image[actualWidth - 1][y].r;
+		//xg = image[xt + 1][y].g - image[actualWidth - 1][y].g;
+		//xb = image[xt + 1][y].b - image[actualWidth - 1][y].b;
+
+		xr = image[actualWidth - 1][y].r - image[xt + 1][y].r;
+		xg = image[actualWidth - 1][y].g - image[xt + 1][y].g;
+		xb = image[actualWidth - 1][y].b - image[xt + 1][y].b;
 		xEnergy = (int)(pow(xr, 2) + pow(xg, 2) + pow(xb, 2));
 
 		yr = image[xt][y + 1].r - image[xt][y - 1].r;
@@ -274,56 +304,88 @@ void Picture::CalculateFullEnergy()
 
 	//CORNERS
 	//Top left. 6
-	xr = image[1][0].r - image[actualWidth - 1][0].r;
-	xg = image[1][0].g - image[actualWidth - 1][0].g;
-	xb = image[1][0].b - image[actualWidth - 1][0].b;
+	//xr = image[1][0].r - image[actualWidth - 1][0].r;
+	//xg = image[1][0].g - image[actualWidth - 1][0].g;
+	//xb = image[1][0].b - image[actualWidth - 1][0].b;
+
+	xr = image[actualWidth - 1][0].r - image[1][0].r;
+	xg = image[actualWidth - 1][0].g - image[1][0].g;
+	xb = image[actualWidth - 1][0].b - image[1][0].b;
 	xEnergy = (int)(pow(xr, 2) + pow(xg, 2) + pow(xb, 2));
 
-	yr = image[0][1].r - image[0][actualHeight - 1].r;
-	yg = image[0][1].g - image[0][actualHeight - 1].g;
-	yb = image[0][1].b - image[0][actualHeight - 1].b;
+	//yr = image[0][1].r - image[0][actualHeight - 1].r;
+	//yg = image[0][1].g - image[0][actualHeight - 1].g;
+	//yb = image[0][1].b - image[0][actualHeight - 1].b;
+
+	yr = image[0][actualHeight - 1].r - image[0][1].r;
+	yg = image[0][actualHeight - 1].g - image[0][1].g;
+	yb = image[0][actualHeight - 1].b - image[0][1].b;
 	yEnergy = (int)(pow(yr, 2) + pow(yg, 2) + pow(yb, 2));
 
 	totalEnergy = xEnergy + yEnergy;
 	image[0][0].energy = totalEnergy;
 
 	//Top right. 7
-	xr = image[0][0].r - image[actualWidth - 2][0].r;
-	xg = image[0][0].g - image[actualWidth - 2][0].g;
-	xb = image[0][0].b - image[actualWidth - 2][0].b;
+	//xr = image[0][0].r - image[actualWidth - 2][0].r;
+	//xg = image[0][0].g - image[actualWidth - 2][0].g;
+	//xb = image[0][0].b - image[actualWidth - 2][0].b;
+
+	xr = image[actualWidth - 2][0].r - image[0][0].r;
+	xg = image[actualWidth - 2][0].g - image[0][0].g;
+	xb = image[actualWidth - 2][0].b - image[0][0].b;
 	xEnergy = (int)(pow(xr, 2) + pow(xg, 2) + pow(xb, 2));
 
-	yr = image[actualWidth - 1][1].r - image[actualWidth - 1][actualHeight - 1].r;
-	yg = image[actualWidth - 1][1].g - image[actualWidth - 1][actualHeight - 1].g;
-	yb = image[actualWidth - 1][1].b - image[actualWidth - 1][actualHeight - 1].b;
+	//yr = image[actualWidth - 1][1].r - image[actualWidth - 1][actualHeight - 1].r;
+	//yg = image[actualWidth - 1][1].g - image[actualWidth - 1][actualHeight - 1].g;
+	//yb = image[actualWidth - 1][1].b - image[actualWidth - 1][actualHeight - 1].b;
+
+	yr = image[actualWidth - 1][actualHeight - 1].r - image[actualWidth - 1][1].r;
+	yg = image[actualWidth - 1][actualHeight - 1].g - image[actualWidth - 1][1].g;
+	yb = image[actualWidth - 1][actualHeight - 1].b - image[actualWidth - 1][1].b;
 	yEnergy = (int)(pow(yr, 2) + pow(yg, 2) + pow(yb, 2));
 
 	totalEnergy = xEnergy + yEnergy;
 	image[actualWidth - 1][0].energy = totalEnergy;
 
 	//Bottom left. 8
-	xr = image[1][actualHeight - 1].r - image[actualWidth - 1][actualHeight - 1].r;
-	xg = image[1][actualHeight - 1].g - image[actualWidth - 1][actualHeight - 1].g;
-	xb = image[1][actualHeight - 1].b - image[actualWidth - 1][actualHeight - 1].b;
+	//xr = image[1][actualHeight - 1].r - image[actualWidth - 1][actualHeight - 1].r;
+	//xg = image[1][actualHeight - 1].g - image[actualWidth - 1][actualHeight - 1].g;
+	//xb = image[1][actualHeight - 1].b - image[actualWidth - 1][actualHeight - 1].b;
+
+	xr = image[actualWidth - 1][actualHeight - 1].r - image[1][actualHeight - 1].r;
+	xg = image[actualWidth - 1][actualHeight - 1].g - image[1][actualHeight - 1].g;
+	xb = image[actualWidth - 1][actualHeight - 1].b - image[1][actualHeight - 1].b;
 	xEnergy = (int)(pow(xr, 2) + pow(xg, 2) + pow(xb, 2));
 
-	yr = image[0][0].r - image[0][actualHeight - 2].r;
-	yg = image[0][0].g - image[0][actualHeight - 2].g;
-	yb = image[0][0].b - image[0][actualHeight - 2].b;
+	//yr = image[0][0].r - image[0][actualHeight - 2].r;
+	//yg = image[0][0].g - image[0][actualHeight - 2].g;
+	//yb = image[0][0].b - image[0][actualHeight - 2].b;
+
+	yr = image[0][actualHeight - 2].r - image[0][0].r;
+	yg = image[0][actualHeight - 2].g - image[0][0].g;
+	yb = image[0][actualHeight - 2].b - image[0][0].b;
 	yEnergy = (int)(pow(yr, 2) + pow(yg, 2) + pow(yb, 2));
 
 	totalEnergy = xEnergy + yEnergy;
 	image[0][actualHeight - 1].energy = totalEnergy;
 
 	//Bottom right. 9
-	xr = image[0][actualHeight - 1].r - image[actualWidth - 2][actualHeight - 1].r;
-	xg = image[0][actualHeight - 1].g - image[actualWidth - 2][actualHeight - 1].g;
-	xb = image[0][actualHeight - 1].b - image[actualWidth - 2][actualHeight - 1].b;
+	//xr = image[0][actualHeight - 1].r - image[actualWidth - 2][actualHeight - 1].r;
+	//xg = image[0][actualHeight - 1].g - image[actualWidth - 2][actualHeight - 1].g;
+	//xb = image[0][actualHeight - 1].b - image[actualWidth - 2][actualHeight - 1].b;
+
+	xr = image[actualWidth - 2][actualHeight - 1].r - image[0][actualHeight - 1].r;
+	xg = image[actualWidth - 2][actualHeight - 1].g - image[0][actualHeight - 1].g;
+	xb = image[actualWidth - 2][actualHeight - 1].b - image[0][actualHeight - 1].b;
 	xEnergy = (int)(pow(xr, 2) + pow(xg, 2) + pow(xb, 2));
 
-	yr = image[actualWidth - 1][0].r - image[actualWidth - 1][actualHeight - 2].r;
-	yg = image[actualWidth - 1][0].g - image[actualWidth - 1][actualHeight - 2].g;
-	yb = image[actualWidth - 1][0].b - image[actualWidth - 1][actualHeight - 2].b;
+	//yr = image[actualWidth - 1][0].r - image[actualWidth - 1][actualHeight - 2].r;
+	//yg = image[actualWidth - 1][0].g - image[actualWidth - 1][actualHeight - 2].g;
+	//yb = image[actualWidth - 1][0].b - image[actualWidth - 1][actualHeight - 2].b;
+
+	yr = image[actualWidth - 1][actualHeight - 2].r - image[actualWidth - 1][0].r;
+	yg = image[actualWidth - 1][actualHeight - 2].g - image[actualWidth - 1][0].g;
+	yb = image[actualWidth - 1][actualHeight - 2].b - image[actualWidth - 1][0].b;
 	yEnergy = (int)(pow(yr, 2) + pow(yg, 2) + pow(yb, 2));
 
 	totalEnergy = xEnergy + yEnergy;
@@ -359,6 +421,7 @@ Pixel** Picture::GetImage()
 
 void Picture::Save(string path, int type)
 {
+	cout << "Saving: " << path << endl;
 	if (type == PNG)
 	{
 		SavePNG(path);
@@ -367,31 +430,39 @@ void Picture::Save(string path, int type)
 	{
 		SaveJPEG(path);
 	}
+	cout << "Saving DONE" << endl;
 }
 
 void Picture::SavePNG(string path)
 {
 	//When AutoResize works all actual* should be changed
-
 	vector<unsigned char> temp;
+	temp.resize(actualWidth * actualHeight * 4);
+
+	cout << "Working..." << endl;
 
 	for (int y = 0; y < actualHeight; y++)
 	{
 		for (int x = 0; x < actualWidth; x++)
 		{
-			temp.push_back((unsigned char)image[x][y].r);
-			temp.push_back((unsigned char)image[x][y].g);
-			temp.push_back((unsigned char)image[x][y].b);
+			temp[4 * actualWidth * y + 4 * x + 0] = image[x][y].r;
+			temp[4 * actualWidth * y + 4 * x + 1] = image[x][y].g;
+			temp[4 * actualWidth * y + 4 * x + 2] = image[x][y].b;
+			temp[4 * actualWidth * y + 4 * x + 3] = 255;
+
+			if (y == actualHeight / 2 && x == actualWidth / 2)
+				cout << "Halfway done" << endl;
 		}
 	}
 
-	unsigned error = encode(path, temp, actualWidth, actualHeight, LCT_RGB);
+	cout << "Almost done" << endl;
+
+	unsigned error = encode(path, temp, actualWidth, actualHeight);
 
 	if (error)
 	{
 		cout << "Encoder error " << error << ": " << lodepng_error_text(error) << endl;
 	}
-
 }
 void Picture::SaveJPEG(string path)
 {

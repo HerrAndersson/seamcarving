@@ -2,6 +2,7 @@
 #include "stdafx.h"
 #include <string>
 #include "FileTypes.h"
+#include "windows.h"
 
 using namespace std;
 

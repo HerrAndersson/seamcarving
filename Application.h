@@ -17,6 +17,9 @@ private:
 	void Clear();
 	void PerformSeamCarving();
 
+	void DebugEnergy();
+	int GetNumberOfDigits(int i);
+
 public:
 
 	Application(ToScreen* scr);
