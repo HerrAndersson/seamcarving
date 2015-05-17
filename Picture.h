@@ -27,6 +27,8 @@ private:
 	void CalculateFullEnergy();
 	void ShowSeam(Point* positions, bool rowOrColumn); //Row = true, column = false
 
+	int CalculatePixelEnergy(Pixel* p1, Pixel* p2);
+
 public:
 
 	Picture(string filename, int filetype);

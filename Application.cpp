@@ -4,7 +4,7 @@
 #include <math.h>
 using namespace std;
 
-int removeColumns = 4;
+int removeColumns = 40;
 int rc = removeColumns;
 int removeRows = 0;
 bool saved = false;
@@ -18,12 +18,12 @@ Application::Application(ToScreen* scr)
 	//pic = new Picture("Pictures/Input/tree.png", PNG);
 	//pic = new Picture("Pictures/Input/tower.jpg", JPG);
 	//pic = new Picture("Pictures/Input/tree.jpg", JPEG);
-	//pic = new Picture("Pictures/Input/towerSmall.jpg", JPEG);
+	pic = new Picture("Pictures/Input/towerSmall.jpg", JPEG);
 	//pic = new Picture("Pictures/Input/towerMedium.jpg", JPEG);
 	//pic = new Picture("Pictures/Input/towerMedium.png", PNG);
 
 
-	pic = new Picture("Pictures/Input/testsimplesmall.png", PNG);
+	//pic = new Picture("Pictures/Input/testsimplesmall.png", PNG);
 	//pic = new Picture("Pictures/Input/testsimplebig.png", PNG);
 
 	carver = new SeamCarver(pic);

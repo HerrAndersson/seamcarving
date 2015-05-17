@@ -137,6 +137,7 @@
     <ClInclude Include="Application.h" />
     <ClInclude Include="Console.h" />
     <ClInclude Include="FileTypes.h" />
+    <ClInclude Include="Helper.h" />
     <ClInclude Include="JpegLoader.h" />
     <ClInclude Include="LibJpeg\jconfig.h" />
     <ClInclude Include="LibJpeg\jdct.h" />

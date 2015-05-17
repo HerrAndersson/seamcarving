@@ -16,8 +16,6 @@ private:
 	int FindMin(int v1, int v2, int v3, int& index);
 	int FindMin(int v1, int v2, int v3);
 
-	int GetNumberOfDigits(int i);
-
 public:
 
 	SeamCarver(Picture* pic);
