@@ -1,6 +1,7 @@
 #pragma once
 #include "FileTypes.h"
 #include "Picture.h"
+#include "ToScreen.h"
 
 using namespace std;
 
@@ -10,9 +11,6 @@ private:
 
 	Picture* pic;
 
-	Point* FindVerticalSeam();
-	Point* FindHorizontalSeam();
-
 	int FindMin(int v1, int v2, int v3, int& index);
 	int FindMin(int v1, int v2, int v3);
 
@@ -20,6 +18,9 @@ public:
 
 	SeamCarver(Picture* pic);
 	virtual ~SeamCarver();
+
+	Point* FindVerticalSeam();
+	Point* FindHorizontalSeam();
 
 	void RemoveRowsAndColumns(int rowCount, int columnCount);
 	void RemoveRows(int rowCount);

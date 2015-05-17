@@ -4,7 +4,7 @@
 #include <math.h>
 using namespace std;
 
-int removeColumns = 40;
+int removeColumns = 50;
 int rc = removeColumns;
 int removeRows = 0;
 bool saved = false;
@@ -18,12 +18,14 @@ Application::Application(ToScreen* scr)
 	//pic = new Picture("Pictures/Input/tree.png", PNG);
 	//pic = new Picture("Pictures/Input/tower.jpg", JPG);
 	//pic = new Picture("Pictures/Input/tree.jpg", JPEG);
-	pic = new Picture("Pictures/Input/towerSmall.jpg", JPEG);
+	//pic = new Picture("Pictures/Input/towerSmall.jpg", JPEG);
 	//pic = new Picture("Pictures/Input/towerMedium.jpg", JPEG);
 	//pic = new Picture("Pictures/Input/towerMedium.png", PNG);
+	//pic = new Picture("Pictures/Input/ocean.png", PNG);
 
 
 	//pic = new Picture("Pictures/Input/testsimplesmall.png", PNG);
+	pic = new Picture("Pictures/Input/testsimplesmall2.png", PNG);
 	//pic = new Picture("Pictures/Input/testsimplebig.png", PNG);
 
 	carver = new SeamCarver(pic);
@@ -51,7 +53,7 @@ void Application::DebugEnergy()
 		for (int x = 0; x < pic->GetWidth(); x++)
 		{
 			myfile << pic->GetPixel(x, y).energy;
-			for (int i = 0; i < 12 - GetNumberOfDigits(pic->GetPixel(x, y).energy); i++)
+			for (int i = 0; i < 12 - GetNumberOfDigits((int)pic->GetPixel(x, y).energy); i++)
 			{
 				myfile << " ";
 			}
@@ -64,24 +66,40 @@ void Application::DebugEnergy()
 	system("pause");
 }
 
+int i = 0;
+
 void Application::Update(float deltaTime)
 {
 	Clear();
 
 	//DebugEnergy();
+	//PerformSeamCarving();
 
-	PerformSeamCarving();
-
-	for (int x = 0; x < pic->GetWidth(); x++)
+	if (i < removeColumns)
 	{
-		for (int y = 0; y < pic->GetHeight(); y++)
+		Point* positions = carver->FindVerticalSeam();
+		if (i % 2 == 0)
 		{
-			Pixel p = pic->GetPixel(x, y);
-			Screen->SetPixelColor(x, y, p.r, p.g, p.b);
-		}
-	}
+			pic->ShowSeam(positions, false);
 
-	Screen->Update(deltaTime);
+			ShowPicture();
+			Screen->Update(deltaTime);
+
+			Sleep(1000);
+		}
+		else
+		{
+			pic->DeleteColumn(positions);
+
+			ShowPicture();
+			Screen->Update(deltaTime);
+
+			Sleep(100);
+		}
+
+		delete[] positions;
+	}
+	i++;
 }
 
 void Application::Clear()
@@ -95,14 +113,28 @@ void Application::Clear()
 	}
 }
 
+void Application::ShowPicture()
+{
+	for (int x = 0; x < pic->GetWidth(); x++)
+	{
+		for (int y = 0; y < pic->GetHeight(); y++)
+		{
+			Pixel p = pic->GetPixel(x, y);
+			//Screen->SetPixelColor(x, y, p.r, p.g, p.b);
+			Screen->SetPixelColor(x + 150, y + 150, p.EnergyToColor(), p.EnergyToColor(), p.EnergyToColor());
+		}
+	}
+}
+
 void Application::PerformSeamCarving()
 {
 	if (removeColumns > 0)
 	{
 		carver->RemoveColumns(1);
 		removeColumns--;
-		pic->AutoResize();
-		pic->Save("Pictures/Output/testsimple" + to_string(rc-removeColumns) + ".png", PNG);
+
+		//pic->AutoResize();
+		//pic->Save("Pictures/Output/output" + to_string(rc-removeColumns) + ".png", PNG);
 	}
 	else
 	{

@@ -15,8 +15,9 @@ private:
 	SeamCarver*		carver;
 
 	void Clear();
-	void PerformSeamCarving();
+	void ShowPicture();
 
+	void PerformSeamCarving();
 	void DebugEnergy();
 	int GetNumberOfDigits(int i);
 

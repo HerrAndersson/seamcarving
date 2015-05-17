@@ -25,7 +25,6 @@ private:
 
 	void CreateImageArray(int dimX, int dimY);
 	void CalculateFullEnergy();
-	void ShowSeam(Point* positions, bool rowOrColumn); //Row = true, column = false
 
 	int CalculatePixelEnergy(Pixel* p1, Pixel* p2);
 
@@ -41,6 +40,9 @@ public:
 	int GetWidth();
 	int GetHeight();
 	Pixel** GetImage();
+
+	//Row = true, column = false
+	void ShowSeam(Point* positions, bool rowOrColumn);
 
 	void AutoResize();
 
