@@ -16,17 +16,17 @@ SeamCarver::~SeamCarver()
 int SeamCarver::FindMin(int v1, int v2, int v3, int& index)
 {
 	int min = v1;
-	index = 1;
+	index = -1;
 
 	if (v2 < min)
 	{
 		min = v2;
-		index = 2;
+		index = 0;
 	}
 	if (v3 < min)
 	{
 		min = v3;
-		index = 3;
+		index = 1;
 	}
 
 	//cout << v1 << " " << v2 << " " << v3 << endl;
@@ -60,7 +60,6 @@ Point* SeamCarver::FindVerticalSeam()
 	int height = pic->GetHeight();
 	int width = pic->GetWidth();
 
-	int* cameFrom = new int[height];
 	Point* seam = new Point[height];
 	Pixel** image = pic->GetImage();
 
@@ -78,13 +77,11 @@ Point* SeamCarver::FindVerticalSeam()
 			//If pixel is on the top border it keeps its energy
 			if (y == 0)
 			{
-				energy[x][y] = pic->GetPixel(x, y).energy;
+				energy[x][y] = image[x][y].energy;
 			}
 			else //If the pixel is not on the top border it has pixels in the row above and the new energy can be calculated
 			{
 				int min;
-
-				//SPARA KOORDINATEN HÄR!! DET ÄR VILKEN SOM ÄR MINST INNAN DETTA PÅSLAG SOM ÄR INTRESSANT!!!!
 
 				int index = -1;
 
@@ -95,7 +92,6 @@ Point* SeamCarver::FindVerticalSeam()
 				else
 					min = FindMin(image[x - 1][y - 1].energy, image[x][y - 1].energy, image[x + 1][y - 1].energy, index);
 
-				cameFrom[y] = index;
 				energy[x][y] = image[x][y].energy + min;
 			}
 		}
@@ -123,63 +119,28 @@ Point* SeamCarver::FindVerticalSeam()
 		int min;
 		int index;
 
-		//if (yPos != 0)
-		//{
-			if (xPos == 0)
-				min = FindMin(INF, energy[xPos][yPos - 1], energy[xPos + 1][yPos - 1], index);
-			else if (xPos == width - 1)
-				min = FindMin(energy[xPos - 1][yPos - 1], energy[xPos][yPos - 1], INF, index);
-			else
-				min = FindMin(energy[xPos - 1][yPos - 1], energy[xPos][yPos - 1], energy[xPos + 1][yPos - 1], index);
+		if (xPos == 0)
+			min = FindMin(INF, energy[xPos][yPos - 1], energy[xPos + 1][yPos - 1], index);
+		else if (xPos == width - 1)
+			min = FindMin(energy[xPos - 1][yPos - 1], energy[xPos][yPos - 1], INF, index);
+		else
+			min = FindMin(energy[xPos - 1][yPos - 1], energy[xPos][yPos - 1], energy[xPos + 1][yPos - 1], index);
 
-			if (index == 1)
-				xPos -= 1;
-			if (index == 3)
-				xPos += 1;
-			else
-				xPos = xPos;
+		xPos += index;
 
-			if (xPos < 0)
-				xPos = 0;
-			if (xPos > width - 1)
-				xPos = width - 1;
-		//}
+		if (xPos < 0)
+			xPos = 0;
+		if (xPos > width - 1)
+			xPos = width - 1;
 
 		seam[yPos] = Point(xPos, yPos);
 	}
-
-
-
-	//if (counter % 2 == 0)
-	//{
-	//	ofstream myfile;
-	//	myfile.open("Pictures/Debug/energySEAM" + to_string(counter) + ".txt");
-
-	//	for (int y = 0; y < height; y++)
-	//	{
-	//		for (int x = 0; x < width; x++)
-	//		{
-	//			myfile << energy[x][y];
-	//			for (int i = 0; i < 12 - GetNumberOfDigits(image[x][y].energy); i++)
-	//			{
-	//				myfile << " ";
-	//			}
-	//		}
-	//		myfile << endl << endl << endl;
-	//	}
-
-	//	myfile.close();
-	//}
-	//counter++;
-
 
 	for (int i = 0; i < width; i++)
 	{
 		delete[] energy[i];
 	}
 	delete[] energy;
-
-	delete[] cameFrom;
 
 	return seam;
 }

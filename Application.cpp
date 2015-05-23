@@ -49,29 +49,6 @@ int Application::GetNumberOfDigits(int i)
 	return i > 0 ? (int)log10((double)i) + 1 : 1;
 }
 
-void Application::DebugEnergy()
-{
-	ofstream myfile;
-	myfile.open("energy.txt");
-
-	for (int y = 0; y < picture->GetHeight(); y++)
-	{
-		for (int x = 0; x < picture->GetWidth(); x++)
-		{
-			myfile << picture->GetPixel(x, y).energy;
-			for (int i = 0; i < 12 - GetNumberOfDigits((int)picture->GetPixel(x, y).energy); i++)
-			{
-				myfile << " ";
-			}
-		}
-		myfile << endl << endl << endl;
-	}
-
-	myfile.close();
-
-	system("pause");
-}
-
 int i = 0;
 
 void Application::Update(float deltaTime)
