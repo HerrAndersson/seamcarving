@@ -191,38 +191,6 @@ void Picture::CalculateFullEnergy()
 		}
 	}
 
-	//int xEnergy = 0;
-	//int yEnergy = 0;
-	//int totalEnergy = 0;
-
-	////Scan through the image and update the energy values. Ignore boundary pixels. 1
-	//for (int y = 1; y < actualHeight - 1; y++)
-	//{
-	//	for (int x = 1; x < actualWidth - 1; x++)
-	//	{
-	//		xEnergy = CalculatePixelEnergy(&image[x + 1][y], &image[x - 1][y]);
-	//		if (x > 1 && x < actualWidth - 2)
-	//			xEnergy += CalculatePixelEnergy(&image[x + 2][y], &image[x - 2][y]);
-	//		if (x > 2 && x < actualWidth - 3)
-	//			xEnergy += CalculatePixelEnergy(&image[x + 3][y], &image[x - 3][y]);
-
-
-	//		yEnergy = CalculatePixelEnergy(&image[x][y + 1], &image[x][y - 1]);
-	//		if (y > 1 && x < actualHeight - 2)
-	//			yEnergy += CalculatePixelEnergy(&image[x - 1][y + 1], &image[x - 1][y - 1]);
-	//		if (y > 2 && x < actualHeight - 2)
-	//			yEnergy += CalculatePixelEnergy(&image[x + 1][y + 1], &image[x + 1][y - 1]);
-
-	//		totalEnergy = xEnergy + yEnergy;
-	//		image[x][y].energy = totalEnergy;
-	//	}
-
-	//	xEnergy = 0;
-	//	yEnergy = 0;
-	//	totalEnergy = 0;
-	//}
-
-
 	//Boundary pixels. 2 & 3
 	for (int x = 1; x < actualWidth - 1; x++)
 	{
