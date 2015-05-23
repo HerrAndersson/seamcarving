@@ -15,11 +15,12 @@ private:
 	Picture*		original;
 	SeamCarver*		carver;
 
+	Point* vertical = nullptr;;
+	Point* horizontal = nullptr;
+
 	void Clear();
 	void ShowPicture(Picture* picture, int offsetX, int offsetY);
 
-	void PerformSeamCarving();
-	void DebugEnergy();
 	int GetNumberOfDigits(int i);
 
 public:

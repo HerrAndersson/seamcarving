@@ -4,14 +4,11 @@
 #include <math.h>
 using namespace std;
 
-//http://cs.brown.edu/courses/cs129/results/proj3/taox/
-//http://www.cs.princeton.edu/courses/archive/spr13/cos226/assignments/seamCarving.html
-//http://blogs.techsmith.com/inside-techsmith/seam-carving/
-
-int removeColumns = 150;
-int rc = removeColumns;
-int removeRows = 0;
+int removeColumns = 10;
+int removeRows = 50;
 bool saved = false;
+bool showV = true;
+bool showH = true;
 
 Application::Application(ToScreen* scr)
 {
@@ -19,19 +16,22 @@ Application::Application(ToScreen* scr)
 
 	Screen = scr;
 
-	//pic = new Picture("Pictures/Input/tree.png", PNG);
-	//pic = new Picture("Pictures/Input/tower.jpg", JPG);
-	//pic = new Picture("Pictures/Input/tree.jpg", JPEG);
-	//pic = new Picture("Pictures/Input/towerSmall.jpg", JPEG);
-	//pic = new Picture("Pictures/Input/towerMedium.jpg", JPEG);
-	picture = new Picture("Pictures/Input/towerMedium.png", PNG);
-	original = new Picture("Pictures/Input/towerMedium.png", PNG);
-	//pic = new Picture("Pictures/Input/ocean.png", PNG);
+	string png = ".png";
+	string jpg = ".jpg";
+	string type = "_carved";
+
+	//PNG&JPG
+	string towerMedium =	"Pictures/Input/towerMedium";
+
+	//PNG
+	string tree =			"Pictures/Input/tree";
+	string ocean =			"Pictures/Input/ocean";
+	string towerLarge =		"Pictures/Input/towerLarge";
+	string beach =			"Pictures/Input/beach";
 
 
-	//pic = new Picture("Pictures/Input/testsimplesmall.png", PNG);
-	//pic = new Picture("Pictures/Input/testsimplesmall2.png", PNG);
-	//pic = new Picture("Pictures/Input/testsimplebig.png", PNG);
+	picture = new Picture(name, PNG);
+	original = new Picture(name, PNG);
 
 	carver = new SeamCarver(picture);
 }
@@ -39,9 +39,13 @@ Application::Application(ToScreen* scr)
 Application::~Application()
 {
 	Screen = nullptr; //Comes from main.cpp
+
 	delete picture;
 	delete carver;
 	delete original;
+
+	delete[] vertical;
+	delete[] horizontal;
 }
 
 int Application::GetNumberOfDigits(int i)
@@ -49,38 +53,68 @@ int Application::GetNumberOfDigits(int i)
 	return i > 0 ? (int)log10((double)i) + 1 : 1;
 }
 
-int i = 0;
-
+bool s = true;
 void Application::Update(float deltaTime)
 {
 	Clear();
 
-	//DebugEnergy();
-	//PerformSeamCarving();
-
-	if (i < removeColumns)
+	if (removeColumns > 0)
 	{
-		Point* positions = carver->FindVerticalSeam();
-		if (i % 2 == 0)
+		if (showV)
 		{
-			picture->ShowSeam(positions, false);
+			vertical = carver->FindVerticalSeam();
+			picture->ShowSeam(vertical, false);
 
 			ShowPicture(picture, original->GetWidth(), 0);
 			ShowPicture(original, 0, 0);
 			Screen->Update(deltaTime);
+			showV = false;
 		}
 		else
 		{
-			picture->DeleteColumn(positions);
+			if (vertical)
+			{
+				picture->DeleteColumn(vertical);
+
+				ShowPicture(picture, original->GetWidth(), 0);
+				ShowPicture(original, 0, 0);
+				Screen->Update(deltaTime);
+				removeColumns--;
+			}
+			showV = true;
+		}
+	}
+	else if (removeRows > 0)
+	{
+		if (showH)
+		{
+			horizontal = carver->FindHorizontalSeam();
+			picture->ShowSeam(horizontal, true);
 
 			ShowPicture(picture, original->GetWidth(), 0);
 			ShowPicture(original, 0, 0);
 			Screen->Update(deltaTime);
+			showH = false;
 		}
+		else
+		{
+			if (horizontal)
+			{
+				picture->DeleteRow(horizontal);
 
-		delete[] positions;
+				ShowPicture(picture, original->GetWidth(), 0);
+				ShowPicture(original, 0, 0);
+				Screen->Update(deltaTime);
+				removeRows--;
+			}
+			showH = true;
+		}
 	}
-	i++;
+	else
+	{
+		//picture->Save("Pictures/output/")
+	}
+
 }
 
 void Application::Clear()
@@ -104,26 +138,5 @@ void Application::ShowPicture(Picture* picture, int offsetX, int offsetY)
 			Screen->SetPixelColor(x + offsetX, y, p.r, p.g, p.b);
 			Screen->SetPixelColor(x + offsetX, y + picture->GetHeight(), p.EnergyToColor(), p.EnergyToColor(), p.EnergyToColor());
 		}
-	}
-}
-
-void Application::PerformSeamCarving()
-{
-	if (removeColumns > 0)
-	{
-		carver->RemoveColumns(1);
-		removeColumns--;
-
-		//pic->AutoResize();
-		//pic->Save("Pictures/Output/output" + to_string(rc-removeColumns) + ".png", PNG);
-	}
-	else
-	{
-		//if (!saved)
-		//{
-		//	pic->AutoResize();
-		//	pic->Save("Pictures/Output/testsimple.png", PNG);
-		//	saved = true;
-		//}
 	}
 }

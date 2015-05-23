@@ -108,9 +108,9 @@ void Picture::DeleteColumn(Point* positions)
 
 void Picture::ShowSeam(Point* positions, bool rowOrColumn)
 {
-	int length = height;
+	int length = actualHeight;
 	if (rowOrColumn)
-		length = width;
+		length = actualWidth;
 
 	for (int i = 0; i < length; i++)
 	{
