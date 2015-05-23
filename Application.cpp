@@ -4,7 +4,11 @@
 #include <math.h>
 using namespace std;
 
-int removeColumns = 50;
+//http://cs.brown.edu/courses/cs129/results/proj3/taox/
+//http://www.cs.princeton.edu/courses/archive/spr13/cos226/assignments/seamCarving.html
+//http://blogs.techsmith.com/inside-techsmith/seam-carving/
+
+int removeColumns = 150;
 int rc = removeColumns;
 int removeRows = 0;
 bool saved = false;
@@ -20,22 +24,24 @@ Application::Application(ToScreen* scr)
 	//pic = new Picture("Pictures/Input/tree.jpg", JPEG);
 	//pic = new Picture("Pictures/Input/towerSmall.jpg", JPEG);
 	//pic = new Picture("Pictures/Input/towerMedium.jpg", JPEG);
-	//pic = new Picture("Pictures/Input/towerMedium.png", PNG);
+	picture = new Picture("Pictures/Input/towerMedium.png", PNG);
+	original = new Picture("Pictures/Input/towerMedium.png", PNG);
 	//pic = new Picture("Pictures/Input/ocean.png", PNG);
 
 
 	//pic = new Picture("Pictures/Input/testsimplesmall.png", PNG);
-	pic = new Picture("Pictures/Input/testsimplesmall2.png", PNG);
+	//pic = new Picture("Pictures/Input/testsimplesmall2.png", PNG);
 	//pic = new Picture("Pictures/Input/testsimplebig.png", PNG);
 
-	carver = new SeamCarver(pic);
+	carver = new SeamCarver(picture);
 }
 
 Application::~Application()
 {
 	Screen = nullptr; //Comes from main.cpp
-	delete pic;
+	delete picture;
 	delete carver;
+	delete original;
 }
 
 int Application::GetNumberOfDigits(int i)
@@ -48,12 +54,12 @@ void Application::DebugEnergy()
 	ofstream myfile;
 	myfile.open("energy.txt");
 
-	for (int y = 0; y < pic->GetHeight(); y++)
+	for (int y = 0; y < picture->GetHeight(); y++)
 	{
-		for (int x = 0; x < pic->GetWidth(); x++)
+		for (int x = 0; x < picture->GetWidth(); x++)
 		{
-			myfile << pic->GetPixel(x, y).energy;
-			for (int i = 0; i < 12 - GetNumberOfDigits((int)pic->GetPixel(x, y).energy); i++)
+			myfile << picture->GetPixel(x, y).energy;
+			for (int i = 0; i < 12 - GetNumberOfDigits((int)picture->GetPixel(x, y).energy); i++)
 			{
 				myfile << " ";
 			}
@@ -80,21 +86,19 @@ void Application::Update(float deltaTime)
 		Point* positions = carver->FindVerticalSeam();
 		if (i % 2 == 0)
 		{
-			pic->ShowSeam(positions, false);
+			picture->ShowSeam(positions, false);
 
-			ShowPicture();
+			ShowPicture(picture, original->GetWidth(), 0);
+			ShowPicture(original, 0, 0);
 			Screen->Update(deltaTime);
-
-			Sleep(1000);
 		}
 		else
 		{
-			pic->DeleteColumn(positions);
+			picture->DeleteColumn(positions);
 
-			ShowPicture();
+			ShowPicture(picture, original->GetWidth(), 0);
+			ShowPicture(original, 0, 0);
 			Screen->Update(deltaTime);
-
-			Sleep(100);
 		}
 
 		delete[] positions;
@@ -113,15 +117,15 @@ void Application::Clear()
 	}
 }
 
-void Application::ShowPicture()
+void Application::ShowPicture(Picture* picture, int offsetX, int offsetY)
 {
-	for (int x = 0; x < pic->GetWidth(); x++)
+	for (int x = 0; x < picture->GetWidth(); x++)
 	{
-		for (int y = 0; y < pic->GetHeight(); y++)
+		for (int y = 0; y < picture->GetHeight(); y++)
 		{
-			Pixel p = pic->GetPixel(x, y);
-			//Screen->SetPixelColor(x, y, p.r, p.g, p.b);
-			Screen->SetPixelColor(x + 150, y + 150, p.EnergyToColor(), p.EnergyToColor(), p.EnergyToColor());
+			Pixel p = picture->GetPixel(x, y);
+			Screen->SetPixelColor(x + offsetX, y, p.r, p.g, p.b);
+			Screen->SetPixelColor(x + offsetX, y + picture->GetHeight(), p.EnergyToColor(), p.EnergyToColor(), p.EnergyToColor());
 		}
 	}
 }

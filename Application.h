@@ -11,11 +11,12 @@ class Application
 private:
 
 	ToScreen*		Screen;
-	Picture*		pic;
+	Picture*		picture;
+	Picture*		original;
 	SeamCarver*		carver;
 
 	void Clear();
-	void ShowPicture();
+	void ShowPicture(Picture* picture, int offsetX, int offsetY);
 
 	void PerformSeamCarving();
 	void DebugEnergy();

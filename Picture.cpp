@@ -14,35 +14,20 @@ Picture::Picture(string filename, int filetype)
 	this->filename = filename;
 
 	if (filetype == PNG)
-	{
 		LoadPNG(filename);
-	}
 	else if (filetype == JPEG || filetype == JPG)
-	{
 		LoadJPEG(filename);
-	}
 
 	actualHeight = height;
 	actualWidth = width;
 
 	CalculateFullEnergy();
-
-	//for (int i = 0; i < height; i++)
-	//{
-	//	for (int j = 0; j < width; j++)
-	//	{
-	//		cout << image[j][i].energy << " ";
-	//	}
-	//	cout << endl;
-	//}
 }
 
 Picture::~Picture()
 {
 	for (int i = 0; i < width; i++)
-	{
 		delete[] image[i];
-	}
 	delete[] image;
 }
 
@@ -172,28 +157,26 @@ int Picture::CalculatePixelEnergy(Pixel* p1, Pixel* p2)
 	g = p1->g - p2->g;
 	b = p1->b - p2->b;
 
-	return (int)(pow(r, 2) + pow(g, 2) + pow(b, 2));
+	return (int)(r*r + g*g + b*b);
 }
 
 int counter2 = 0;
 
 void Picture::CalculateFullEnergy()
 {
-	//http://cs.brown.edu/courses/cs129/results/proj3/taox/
-	//http://www.cs.princeton.edu/courses/archive/spr13/cos226/assignments/seamCarving.html
-
 	/*
 
-	6/////////////////2//////////////////7
-	//								    //
-	 5			      1				    4
-	//								    //
-	//								    //
-	8/////////////////3//////////////////9
+	6/////////////2/////////////7
+	//						   //
+	 5			  1			    4
+	//						   //
+	8/////////////3/////////////9
 
 	*/
 
-	int xEnergy, yEnergy, totalEnergy;
+	int xEnergy = 0;
+	int yEnergy = 0; 
+	int totalEnergy = 0;
 
 	//Scan through the image and update the energy values. Ignore boundary pixels. 1
 	for (int y = 1; y < actualHeight - 1; y++)
@@ -208,147 +191,65 @@ void Picture::CalculateFullEnergy()
 		}
 	}
 
+	//int xEnergy = 0;
+	//int yEnergy = 0;
+	//int totalEnergy = 0;
+
+	////Scan through the image and update the energy values. Ignore boundary pixels. 1
+	//for (int y = 1; y < actualHeight - 1; y++)
+	//{
+	//	for (int x = 1; x < actualWidth - 1; x++)
+	//	{
+	//		xEnergy = CalculatePixelEnergy(&image[x + 1][y], &image[x - 1][y]);
+	//		if (x > 1 && x < actualWidth - 2)
+	//			xEnergy += CalculatePixelEnergy(&image[x + 2][y], &image[x - 2][y]);
+	//		if (x > 2 && x < actualWidth - 3)
+	//			xEnergy += CalculatePixelEnergy(&image[x + 3][y], &image[x - 3][y]);
+
+
+	//		yEnergy = CalculatePixelEnergy(&image[x][y + 1], &image[x][y - 1]);
+	//		if (y > 1 && x < actualHeight - 2)
+	//			yEnergy += CalculatePixelEnergy(&image[x - 1][y + 1], &image[x - 1][y - 1]);
+	//		if (y > 2 && x < actualHeight - 2)
+	//			yEnergy += CalculatePixelEnergy(&image[x + 1][y + 1], &image[x + 1][y - 1]);
+
+	//		totalEnergy = xEnergy + yEnergy;
+	//		image[x][y].energy = totalEnergy;
+	//	}
+
+	//	xEnergy = 0;
+	//	yEnergy = 0;
+	//	totalEnergy = 0;
+	//}
+
+
 	//Boundary pixels. 2 & 3
 	for (int x = 1; x < actualWidth - 1; x++)
 	{
-		//Originalet, hämtat från princeton
-		//xEnergy = CalculatePixelEnergy(&image[x + 1][0], &image[x - 1][0]);
-		//yEnergy = CalculatePixelEnergy(&image[x][actualHeight - 1], &image[x][1]);
-
-		//totalEnergy = xEnergy + yEnergy;
-		//image[x][0].energy = totalEnergy;
-
-		//xEnergy = CalculatePixelEnergy(&image[x + 1][actualHeight - 1], &image[x - 1][actualHeight - 1]);
-		//yEnergy = CalculatePixelEnergy(&image[x][actualHeight - 2], &image[x][0]);
-
-		//totalEnergy = xEnergy + yEnergy;
-		//image[x][actualHeight - 1].energy = totalEnergy;
-
-
-		xEnergy = CalculatePixelEnergy(&image[x + 1][0], &image[x - 1][0]);
-		yEnergy = CalculatePixelEnergy(&image[x][0], &image[x][1]);
-
-		totalEnergy = xEnergy + yEnergy;
-		image[x][0].energy = totalEnergy;
-
-		xEnergy = CalculatePixelEnergy(&image[x + 1][actualHeight - 1], &image[x - 1][actualHeight - 1]);
-		yEnergy = CalculatePixelEnergy(&image[x][actualHeight - 2], &image[x][actualHeight - 1]);
-
-		totalEnergy = xEnergy + yEnergy;
-		image[x][actualHeight - 1].energy = totalEnergy;
-
-
+		image[x][0].energy = image[x][1].energy;
+		image[x][actualHeight - 1].energy = image[x][actualHeight - 2].energy;
 	}
 
 	//Boundary pixels. 4 & 5
 	for (int y = 1; y < actualHeight - 1; y++)
 	{
-		//Originalet, hämtat från princeton
-		//xEnergy = CalculatePixelEnergy(&image[actualWidth - 2][y], &image[0][y]);
-		//yEnergy = CalculatePixelEnergy(&image[actualWidth - 1][y + 1], &image[actualWidth - 1][y - 1]);
-
-		//totalEnergy = xEnergy + yEnergy;
-		//image[actualWidth - 1][y].energy = totalEnergy;
-
-		//xEnergy = CalculatePixelEnergy(&image[actualWidth - 1][y], &image[1][y]);
-		//yEnergy = CalculatePixelEnergy(&image[0][y + 1], &image[0][y - 1]);
-
-		//totalEnergy = xEnergy + yEnergy;
-		//image[0][y].energy = totalEnergy;
-
-		xEnergy = CalculatePixelEnergy(&image[actualWidth - 2][y], &image[actualWidth - 1][y]);
-		yEnergy = CalculatePixelEnergy(&image[actualWidth - 1][y + 1], &image[actualWidth - 1][y - 1]);
-
-		totalEnergy = xEnergy + yEnergy;
-		image[actualWidth - 1][y].energy = totalEnergy;
-
-		xEnergy = CalculatePixelEnergy(&image[0][y], &image[1][y]);
-		yEnergy = CalculatePixelEnergy(&image[0][y + 1], &image[0][y - 1]);
-
-		totalEnergy = xEnergy + yEnergy;
-		image[0][y].energy = totalEnergy;
+		image[actualWidth - 1][y].energy = image[actualWidth - 2][y].energy;
+		image[0][y].energy = image[1][y].energy;
 	}
 
-	//CORNERS
-	//Top left. 6
-	//xEnergy = CalculatePixelEnergy(&image[actualWidth - 1][0], &image[1][0]);
-	//yEnergy = CalculatePixelEnergy(&image[0][actualHeight - 1], &image[0][1]);
+	//Corners. 6,7,8,9
+	image[0][0].energy = image[1][1].energy;
+	image[actualWidth - 1][0].energy = image[actualWidth - 2][1].energy;
+	image[0][actualHeight - 1].energy = image[1][actualHeight - 2].energy;
+	image[actualWidth - 1][actualHeight - 1].energy = image[actualWidth - 2][actualHeight - 2].energy;
 
-	//totalEnergy = xEnergy + yEnergy;
-	//image[0][0].energy = totalEnergy;
-
-	xEnergy = CalculatePixelEnergy(&image[0][0], &image[1][0]);
-	yEnergy = CalculatePixelEnergy(&image[0][0], &image[0][1]);
-
-	totalEnergy = xEnergy + yEnergy;
-	image[0][0].energy = totalEnergy;
-
-	//Top right. 7
-	//xEnergy = CalculatePixelEnergy(&image[actualWidth - 2][0], &image[0][0]);
-	//yEnergy = CalculatePixelEnergy(&image[actualWidth - 1][actualHeight - 1], &image[actualWidth - 1][1]);
-
-	//totalEnergy = xEnergy + yEnergy;
-	//image[actualWidth - 1][0].energy = totalEnergy;
-
-	xEnergy = CalculatePixelEnergy(&image[actualWidth - 2][0], &image[actualWidth - 1][0]);
-	yEnergy = CalculatePixelEnergy(&image[actualWidth - 1][0], &image[actualWidth - 1][1]);
-
-	totalEnergy = xEnergy + yEnergy;
-	image[actualWidth - 1][0].energy = totalEnergy;
-
-	//Bottom left. 8
-	//xEnergy = CalculatePixelEnergy(&image[actualWidth - 1][actualHeight - 1], &image[1][actualHeight - 1]);
-	//yEnergy = CalculatePixelEnergy(&image[0][actualHeight - 2], &image[0][0]);
-
-	//totalEnergy = xEnergy + yEnergy;
-	//image[0][actualHeight - 1].energy = totalEnergy;
-
-	xEnergy = CalculatePixelEnergy(&image[0][actualHeight - 1], &image[1][actualHeight - 1]);
-	yEnergy = CalculatePixelEnergy(&image[0][actualHeight - 2], &image[0][actualHeight - 1]);
-
-	totalEnergy = xEnergy + yEnergy;
-	image[0][actualHeight - 1].energy = totalEnergy;
-
-	//Bottom right. 9
-	//xEnergy = CalculatePixelEnergy(&image[actualWidth - 2][actualHeight - 1], &image[0][actualHeight - 1]);
-	//yEnergy = CalculatePixelEnergy(&image[actualWidth - 1][actualHeight - 2], &image[actualWidth - 1][0]);
-
-	//totalEnergy = xEnergy + yEnergy;
-	//image[actualWidth - 1][actualHeight - 1].energy = totalEnergy;
-
-	xEnergy = CalculatePixelEnergy(&image[actualWidth - 2][actualHeight - 1], &image[actualWidth - 1][actualHeight - 1]);
-	yEnergy = CalculatePixelEnergy(&image[actualWidth - 1][actualHeight - 2], &image[actualWidth - 1][actualHeight - 1]);
-
-	totalEnergy = xEnergy + yEnergy;
-	image[actualWidth - 1][actualHeight - 1].energy = totalEnergy;
-
-	ofstream myfile;
-	myfile.open("Pictures/Debug/energyPIC" + to_string(counter2) + ".txt");
-	counter2++;
-
-	for (int y = 0; y < actualHeight; y++)
-	{
-		for (int x = 0; x < actualWidth; x++)
-		{
-			myfile << image[x][y].energy;
-			for (int i = 0; i < 12 - GetNumberOfDigits(image[x][y].energy); i++)
-			{
-				myfile << " ";
-			}
-		}
-		myfile << endl << endl << endl;
-	}
-
-	//myfile.close();
 }
 
 void Picture::CreateImageArray(int dimX, int dimY)
 {
 	image = new Pixel*[dimX];
 	for (int i = 0; i < dimX; ++i)
-	{
 		image[i] = new Pixel[dimY];
-	}
 }
 
 Pixel Picture::GetPixel(int x, int y)
@@ -372,20 +273,17 @@ Pixel** Picture::GetImage()
 void Picture::Save(string path, int type)
 {
 	cout << "Saving: " << path << endl;
+
 	if (type == PNG)
-	{
 		SavePNG(path);
-	}
 	else if (type == JPG || type == JPEG)
-	{
 		SaveJPEG(path);
-	}
+
 	cout << "Saving DONE" << endl;
 }
 
 void Picture::SavePNG(string path)
 {
-	//When AutoResize works all actual* should be changed
 	vector<unsigned char> temp;
 	temp.resize(actualWidth * actualHeight * 4);
 
@@ -403,9 +301,7 @@ void Picture::SavePNG(string path)
 	unsigned error = encode(path, temp, actualWidth, actualHeight);
 
 	if (error)
-	{
 		cout << "Encoder error " << error << ": " << lodepng_error_text(error) << endl;
-	}
 }
 void Picture::SaveJPEG(string path)
 {
