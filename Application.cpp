@@ -112,6 +112,7 @@ void Application::Update(float deltaTime)
 	}
 	else
 	{
+		//picture->AutoResize();
 		//picture->Save("Pictures/output/")
 	}
 
