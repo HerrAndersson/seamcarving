@@ -265,7 +265,7 @@ void Picture::SavePNG(string path)
 	unsigned error = encode(path, temp, actualWidth, actualHeight);
 
 	if (error)
-		std::runtime_error ("Encoder error " + to_string(error) + ": " + lodepng_error_text(error));
+		std::runtime_error("Encoder error " + to_string(error) + ": " + lodepng_error_text(error));
 }
 void Picture::SaveJPEG(string path)
 {
@@ -280,37 +280,40 @@ void Picture::SaveJPEG(string path)
 			buffer.push_back(image[x][y].b);
 		}
 	}
-
-	FILE* outfile;
-	fopen_s(&outfile, path.c_str(), "wb");
-
-	if (!outfile)
-		std::runtime_error("Failed to open output file");
-
+	
 	struct jpeg_compress_struct cinfo;
-	struct jpeg_error_mgr       jerr;
+	struct jpeg_error_mgr jerr;
+
+	FILE * outfile; 
+	JSAMPROW row_pointer[1];
+	int row_stride;
 
 	cinfo.err = jpeg_std_error(&jerr);
 	jpeg_create_compress(&cinfo);
-	jpeg_stdio_dest(&cinfo, outfile);
 
+	if (fopen_s(&outfile, path.c_str(), "wb") > 0)
+		return;
+
+	jpeg_stdio_dest(&cinfo, outfile);
 	cinfo.image_width = width;
 	cinfo.image_height = height;
 	cinfo.input_components = 3;
 	cinfo.in_color_space = JCS_RGB;
 
 	jpeg_set_defaults(&cinfo);
-
-	/*set the quality [0..100]  */
-	jpeg_set_quality(&cinfo, 75, true);
-	jpeg_start_compress(&cinfo, true);
-	JSAMPROW row_pointer; 
+	jpeg_set_quality(&cinfo, 100, TRUE);
+	jpeg_start_compress(&cinfo, TRUE);
+	row_stride = width * 3;
 
 	while (cinfo.next_scanline < cinfo.image_height) 
 	{
-		row_pointer = (JSAMPROW)&buffer[cinfo.next_scanline * 3 * width];
-		jpeg_write_scanlines(&cinfo, &row_pointer, 1);
+		row_pointer[0] = (JSAMPROW)&buffer[cinfo.next_scanline * row_stride];
+		(void)jpeg_write_scanlines(&cinfo, row_pointer, 1);
 	}
 
-	delete outfile;
+	jpeg_finish_compress(&cinfo);
+	fclose(outfile);
+	jpeg_destroy_compress(&cinfo);
+
+	buffer.clear();
 }
