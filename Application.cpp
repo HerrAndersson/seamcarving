@@ -24,7 +24,7 @@ string towerLarge = "towerLarge";
 string beach = "beach";
 
 string currentIn = "Pictures/Input/" + towerMedium + png;
-string currentOut = "Pictures/Output/" + towerMedium + "_carved" + jpg;
+string currentOut = "Pictures/Output/" + towerMedium + "_carved" + png;
 
 bool saved = false;
 
@@ -134,7 +134,7 @@ bool Application::Update(float deltaTime)
 void Application::Save()
 {
 	picture->AutoResize();
-	picture->Save(currentOut, JPG);
+	picture->Save(currentOut, PNG);
 	saved = true;
 }
 
