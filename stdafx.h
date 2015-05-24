@@ -16,5 +16,5 @@
 #define SAFE_DELETE(x) if( x ) { delete(x); (x) = nullptr; }
 #define PI (3.14159265358979323846f)
 
-const unsigned int SCREEN_WIDTH	= 1280;
-const unsigned int SCREEN_HEIGHT = 800;
+const unsigned int SCREEN_WIDTH	= 1600;
+const unsigned int SCREEN_HEIGHT = 900;

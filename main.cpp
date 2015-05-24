@@ -117,10 +117,8 @@ HRESULT InitWindow( HINSTANCE hInstance, int nCmdShow )
 	RECT rc = { 0, 0, SCREEN_WIDTH, SCREEN_HEIGHT };
 	AdjustWindowRect( &rc, WS_OVERLAPPEDWINDOW, FALSE );
 	
-	if (!(g_hWnd = CreateWindow(L"SeamCarving", L"SeamCarving", WS_OVERLAPPEDWINDOW, CW_USEDEFAULT, CW_USEDEFAULT, rc.right - rc.left, rc.bottom - rc.top, nullptr, nullptr, hInstance, nullptr)))
-	{
+	if (!(g_hWnd = CreateWindowEx(WS_EX_APPWINDOW, L"SeamCarving", L"SeamCarving", WS_OVERLAPPEDWINDOW | CW_USEDEFAULT | CW_USEDEFAULT, 0, 0, rc.right - rc.left, rc.bottom - rc.top, nullptr, nullptr, hInstance, nullptr)))
 		return E_FAIL;
-	}
 
 	ShowWindow( g_hWnd, nCmdShow );
 
