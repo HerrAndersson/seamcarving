@@ -62,6 +62,7 @@ int WINAPI wWinMain( HINSTANCE hInstance, HINSTANCE hPrevInstance, LPWSTR lpCmdL
 
 	// Main message loop
 	MSG msg = {0};
+	bool result = false;
 	while(WM_QUIT != msg.message)
 	{
 		if( PeekMessage( &msg, nullptr, 0, 0, PM_REMOVE) )
@@ -76,9 +77,7 @@ int WINAPI wWinMain( HINSTANCE hInstance, HINSTANCE hPrevInstance, LPWSTR lpCmdL
 			float dt = (currTimeStamp - prevTimeStamp) * secsPerCnt;
 
 			//render
-			bool result = App->Update(dt);
-			if (!result)
-				return WM_QUIT;
+			result = App->Update(dt);
 			Render();
 
 			prevTimeStamp = currTimeStamp;
@@ -88,7 +87,10 @@ int WINAPI wWinMain( HINSTANCE hInstance, HINSTANCE hPrevInstance, LPWSTR lpCmdL
 	SAFE_DELETE(Screen);
 	SAFE_DELETE(App);
 
-	return (int) msg.wParam;
+	if (!result)
+		return WM_QUIT;
+	else
+		return (int) msg.wParam;
 }
 
 // Register class and create window

@@ -20,6 +20,7 @@ private:
 	Point* horizontal = nullptr;
 
 	void Clear();
+	void Save();
 	void ShowPicture(Picture* picture, int offsetX, int offsetY);
 
 public:

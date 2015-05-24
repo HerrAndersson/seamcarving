@@ -5,8 +5,8 @@
 
 using namespace std;
 
-int removeColumns = 450;
-int removeRows = 350;
+int removeColumns = 0;
+int removeRows = 250;
 bool showV = true;
 bool showH = true;
 
@@ -22,8 +22,8 @@ string ocean = "ocean";
 string towerLarge = "towerLarge";
 string beach = "beach";
 
-string currentIn = "Pictures/Input/" + tree + png;
-string currentOut = "Pictures/Output/" + tree + "_carved" + png;
+string currentIn = "Pictures/Input/" + beach + png;
+string currentOut = "Pictures/Output/" + beach + "_carved" + png;
 
 bool saved = false;
 
@@ -116,17 +116,25 @@ bool Application::Update(float deltaTime)
 	{
 		if (!saved)
 		{
-			picture->AutoResize();
-			picture->Save(currentOut, PNG);
-			saved = true;
+			Save();
 			return false;
 		}
 	}
 
 	if (GetAsyncKeyState(VK_ESCAPE) != 0)
+	{
+		//Save();
 		return false;
+	}
 
 	return true;
+}
+
+void Application::Save()
+{
+	picture->AutoResize();
+	picture->Save(currentOut, PNG);
+	saved = true;
 }
 
 void Application::Clear()
