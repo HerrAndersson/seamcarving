@@ -269,5 +269,48 @@ void Picture::SavePNG(string path)
 }
 void Picture::SaveJPEG(string path)
 {
+	vector<char> buffer;
 
+	for (int y = 0; y < actualHeight; y++)
+	{
+		for (int x = 0; x < actualWidth; x++)
+		{
+			buffer.push_back(image[x][y].r);
+			buffer.push_back(image[x][y].g);
+			buffer.push_back(image[x][y].b);
+		}
+	}
+
+	FILE* outfile;
+	fopen_s(&outfile, path.c_str(), "wb");
+
+	if (!outfile)
+		std::runtime_error("Failed to open output file");
+
+	struct jpeg_compress_struct cinfo;
+	struct jpeg_error_mgr       jerr;
+
+	cinfo.err = jpeg_std_error(&jerr);
+	jpeg_create_compress(&cinfo);
+	jpeg_stdio_dest(&cinfo, outfile);
+
+	cinfo.image_width = width;
+	cinfo.image_height = height;
+	cinfo.input_components = 3;
+	cinfo.in_color_space = JCS_RGB;
+
+	jpeg_set_defaults(&cinfo);
+
+	/*set the quality [0..100]  */
+	jpeg_set_quality(&cinfo, 75, true);
+	jpeg_start_compress(&cinfo, true);
+	JSAMPROW row_pointer; 
+
+	while (cinfo.next_scanline < cinfo.image_height) 
+	{
+		row_pointer = (JSAMPROW)&buffer[cinfo.next_scanline * 3 * width];
+		jpeg_write_scanlines(&cinfo, &row_pointer, 1);
+	}
+
+	delete outfile;
 }

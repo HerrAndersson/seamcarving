@@ -5,8 +5,8 @@
 
 using namespace std;
 
-int removeColumns = 0;
-int removeRows = 250;
+int removeColumns = 1;
+int removeRows = 1;
 bool showV = true;
 bool showH = true;
 
@@ -22,14 +22,14 @@ string ocean = "ocean";
 string towerLarge = "towerLarge";
 string beach = "beach";
 
-string currentIn = "Pictures/Input/" + beach + png;
-string currentOut = "Pictures/Output/" + beach + "_carved" + png;
+string currentIn = "Pictures/Input/" + ocean + png;
+string currentOut = "Pictures/Output/" + ocean + "_carved" + jpg;
 
 bool saved = false;
 
 Application::Application(ToScreen* scr)
 {
-	//_CrtSetDbgFlag(_CRTDBG_ALLOC_MEM_DF | _CRTDBG_LEAK_CHECK_DF | _CRTDBG_CHECK_ALWAYS_DF);
+	_CrtSetDbgFlag(_CRTDBG_ALLOC_MEM_DF | _CRTDBG_LEAK_CHECK_DF | _CRTDBG_CHECK_ALWAYS_DF);
 
 	Screen = scr;
 
@@ -133,7 +133,7 @@ bool Application::Update(float deltaTime)
 void Application::Save()
 {
 	picture->AutoResize();
-	picture->Save(currentOut, PNG);
+	picture->Save(currentOut, JPG);
 	saved = true;
 }
 
