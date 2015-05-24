@@ -240,14 +240,10 @@ Pixel** Picture::GetImage()
 
 void Picture::Save(string path, int type)
 {
-	cout << "Saving: " << path << endl;
-
 	if (type == PNG)
 		SavePNG(path);
 	else if (type == JPG || type == JPEG)
 		SaveJPEG(path);
-
-	cout << "Saving DONE" << endl;
 }
 
 void Picture::SavePNG(string path)
@@ -269,7 +265,7 @@ void Picture::SavePNG(string path)
 	unsigned error = encode(path, temp, actualWidth, actualHeight);
 
 	if (error)
-		cout << "Encoder error " << error << ": " << lodepng_error_text(error) << endl;
+		std::runtime_error ("Encoder error " + to_string(error) + ": " + lodepng_error_text(error));
 }
 void Picture::SaveJPEG(string path)
 {
