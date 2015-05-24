@@ -4,11 +4,27 @@
 #include <math.h>
 using namespace std;
 
-int removeColumns = 350;
-int removeRows = 150;
-bool saved = false;
+int removeColumns = 450;
+int removeRows = 350;
 bool showV = true;
 bool showH = true;
+
+string png = ".png";
+string jpg = ".jpg";
+
+//PNG&JPG
+string towerMedium = "towerMedium";
+
+//PNG
+string tree = "tree";
+string ocean = "ocean";
+string towerLarge = "towerLarge";
+string beach = "beach";
+
+string currentIn = "Pictures/Input/" + tree + png;
+string currentOut = "Pictures/Output/" + tree + "_carved" + png;
+
+bool saved = false;
 
 Application::Application(ToScreen* scr)
 {
@@ -16,22 +32,8 @@ Application::Application(ToScreen* scr)
 
 	Screen = scr;
 
-	string png = ".png";
-	string jpg = ".jpg";
-	string type = "_carved";
-
-	//PNG&JPG
-	string towerMedium =	"Pictures/Input/towerMedium";
-
-	//PNG
-	string tree =			"Pictures/Input/tree";
-	string ocean =			"Pictures/Input/ocean";
-	string towerLarge =		"Pictures/Input/towerLarge";
-	string beach =			"Pictures/Input/beach";
-
-
-	picture = new Picture(towerMedium + png, PNG);
-	original = new Picture(towerMedium + png, PNG);
+	picture = new Picture(currentIn, PNG);
+	original = new Picture(currentIn, PNG);
 
 	carver = new SeamCarver(picture);
 }
@@ -53,8 +55,7 @@ int Application::GetNumberOfDigits(int i)
 	return i > 0 ? (int)log10((double)i) + 1 : 1;
 }
 
-bool s = true;
-void Application::Update(float deltaTime)
+bool Application::Update(float deltaTime)
 {
 	Clear();
 
@@ -65,8 +66,9 @@ void Application::Update(float deltaTime)
 			vertical = carver->FindVerticalSeam();
 			picture->ShowSeam(vertical, false);
 
-			ShowPicture(picture, original->GetWidth(), 0);
-			ShowPicture(original, 0, 0);
+			ShowPicture(picture, 0, 0);
+			//ShowPicture(picture, original->GetWidth(), 0);
+			//ShowPicture(original, 0, 0);
 			Screen->Update(deltaTime);
 			showV = false;
 		}
@@ -76,8 +78,9 @@ void Application::Update(float deltaTime)
 			{
 				picture->DeleteColumn(vertical);
 
-				ShowPicture(picture, original->GetWidth(), 0);
-				ShowPicture(original, 0, 0);
+				ShowPicture(picture, 0, 0);
+				//ShowPicture(picture, original->GetWidth(), 0);
+				//ShowPicture(original, 0, 0);
 				Screen->Update(deltaTime);
 				removeColumns--;
 			}
@@ -91,8 +94,9 @@ void Application::Update(float deltaTime)
 			horizontal = carver->FindHorizontalSeam();
 			picture->ShowSeam(horizontal, true);
 
-			ShowPicture(picture, original->GetWidth(), 0);
-			ShowPicture(original, 0, 0);
+			ShowPicture(picture, 0, 0);
+			//ShowPicture(picture, original->GetWidth(), 0);
+			//ShowPicture(original, 0, 0);
 			Screen->Update(deltaTime);
 			showH = false;
 		}
@@ -102,8 +106,8 @@ void Application::Update(float deltaTime)
 			{
 				picture->DeleteRow(horizontal);
 
-				ShowPicture(picture, original->GetWidth(), 0);
-				ShowPicture(original, 0, 0);
+				ShowPicture(picture, 0, 0);
+				//ShowPicture(original, 0, 0);
 				Screen->Update(deltaTime);
 				removeRows--;
 			}
@@ -112,10 +116,16 @@ void Application::Update(float deltaTime)
 	}
 	else
 	{
-		//picture->AutoResize();
-		//picture->Save("Pictures/output/")
+		if (!saved)
+		{
+			picture->AutoResize();
+			picture->Save(currentOut, PNG);
+			saved = true;
+			return false;
+		}
 	}
 
+	return true;
 }
 
 void Application::Clear()

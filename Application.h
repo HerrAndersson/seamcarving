@@ -28,6 +28,6 @@ public:
 	Application(ToScreen* scr);
 	~Application();
 
-	void Update(float frameTime);
+	bool Update(float frameTime);
 
 };

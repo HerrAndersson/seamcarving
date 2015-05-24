@@ -77,7 +77,9 @@ int WINAPI wWinMain( HINSTANCE hInstance, HINSTANCE hPrevInstance, LPWSTR lpCmdL
 			float dt = (currTimeStamp - prevTimeStamp) * secsPerCnt;
 
 			//render
-			App->Update(dt);
+			bool result = App->Update(dt);
+			if (!result)
+				return WM_QUIT;
 			Render();
 
 			prevTimeStamp = currTimeStamp;
