@@ -2,7 +2,7 @@
 #include "ToScreen.h"
 #include "Application.h"
 
-#include "Console.h"
+//#include "Console.h"
 #include <iostream>
 #include <fstream>
 #include <conio.h>
@@ -23,7 +23,7 @@ void				Update(float deltaTime);
 // Create Direct3D device and swap chain
 HRESULT Init()
 {
-	RedirectIOToConsole();
+	//RedirectIOToConsole();
 	Screen = new ToScreen();
 	Screen->Init(g_hWnd);
 

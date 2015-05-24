@@ -4,8 +4,8 @@
 #include <math.h>
 using namespace std;
 
-int removeColumns = 10;
-int removeRows = 50;
+int removeColumns = 350;
+int removeRows = 150;
 bool saved = false;
 bool showV = true;
 bool showH = true;
@@ -30,8 +30,8 @@ Application::Application(ToScreen* scr)
 	string beach =			"Pictures/Input/beach";
 
 
-	picture = new Picture(name, PNG);
-	original = new Picture(name, PNG);
+	picture = new Picture(towerMedium + png, PNG);
+	original = new Picture(towerMedium + png, PNG);
 
 	carver = new SeamCarver(picture);
 }
