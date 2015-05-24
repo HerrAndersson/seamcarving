@@ -2,6 +2,7 @@
 #include <iostream>
 #include <fstream>
 #include <math.h>
+
 using namespace std;
 
 int removeColumns = 450;
@@ -50,11 +51,6 @@ Application::~Application()
 	delete[] horizontal;
 }
 
-int Application::GetNumberOfDigits(int i)
-{
-	return i > 0 ? (int)log10((double)i) + 1 : 1;
-}
-
 bool Application::Update(float deltaTime)
 {
 	Clear();
@@ -63,6 +59,7 @@ bool Application::Update(float deltaTime)
 	{
 		if (showV)
 		{
+			delete[] vertical;
 			vertical = carver->FindVerticalSeam();
 			picture->ShowSeam(vertical, false);
 
@@ -91,6 +88,7 @@ bool Application::Update(float deltaTime)
 	{
 		if (showH)
 		{
+			delete[] horizontal;
 			horizontal = carver->FindHorizontalSeam();
 			picture->ShowSeam(horizontal, true);
 
@@ -125,18 +123,17 @@ bool Application::Update(float deltaTime)
 		}
 	}
 
+	if (GetAsyncKeyState(VK_ESCAPE) != 0)
+		return false;
+
 	return true;
 }
 
 void Application::Clear()
 {
 	for (int x = 0; x < SCREEN_WIDTH; x++)
-	{
 		for (int y = 0; y < SCREEN_HEIGHT; y++)
-		{
 			Screen->SetPixelColor(x, y, 0, 0, 0);
-		}
-	}
 }
 
 void Application::ShowPicture(Picture* picture, int offsetX, int offsetY)

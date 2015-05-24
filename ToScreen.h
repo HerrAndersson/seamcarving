@@ -23,23 +23,23 @@ public:
 
 private:
 
-	D3D10_DRIVER_TYPE       mDriverType;
-	IDXGISwapChain*         mSwapChain;
-	ID3D10RenderTargetView* mRenderTargetView;
-	ID3D10Texture2D*        mDepthStencil;
-	ID3D10DepthStencilView* mDepthStencilView;
-	ID3D10Device*			mDevice;
+	D3D10_DRIVER_TYPE			mDriverType;
+	IDXGISwapChain*				mSwapChain;
+	ID3D10RenderTargetView*		mRenderTargetView;
+	ID3D10Texture2D*			mDepthStencil;
+	ID3D10DepthStencilView*		mDepthStencilView;
+	ID3D10Device*				mDevice;
 
-	ID3D10Texture2D*		mTexture;
-	BYTE*					mScreenPixels;
+	ID3D10Texture2D*			mTexture;
+	BYTE*						mScreenPixels;
 
-	ID3D10Resource* mCurrentFrame;
-	ID3D10ShaderResourceView* mCurrentFrameView;
+	ID3D10Resource*				mCurrentFrame;
+	ID3D10ShaderResourceView*	mCurrentFrameView;
 
 	//shader variables
-	ID3D10VertexShader*		mVertexShader;
-	ID3D10PixelShader*		mPixelShader;
-	ID3D10SamplerState*		mTextureSampler;
+	ID3D10VertexShader*			mVertexShader;
+	ID3D10PixelShader*			mPixelShader;
+	ID3D10SamplerState*			mTextureSampler;
 
 	unsigned int mScreenWidth;
 	unsigned int mScreenHeight;

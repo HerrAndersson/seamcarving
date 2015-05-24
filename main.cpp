@@ -15,12 +15,12 @@ HWND					g_hWnd					= nullptr;
 ToScreen*				Screen					= nullptr;
 Application*            App						= nullptr;
 
-HRESULT             InitWindow( HINSTANCE hInstance, int nCmdShow );
-LRESULT CALLBACK    WndProc(HWND, UINT, WPARAM, LPARAM);
-HRESULT				Render();
-void				Update(float deltaTime);
+HRESULT                 InitWindow( HINSTANCE hInstance, int nCmdShow );
+LRESULT CALLBACK		WndProc(HWND, UINT, WPARAM, LPARAM);
+HRESULT					Render();
+void					Update(float deltaTime);
 
-// Create Direct3D device and swap chain
+//Create Direct3D device and swap chain
 HRESULT Init()
 {
 	//RedirectIOToConsole();
@@ -42,8 +42,7 @@ void CreateApp()
 	App = new Application(Screen);
 }
 
-// Entry point to the program. Initializes everything and goes into a message processing 
-// loop. Idle time is used to render the scene.
+// Entry point to the program. Initializes everything and goes into a message processing loop.
 int WINAPI wWinMain( HINSTANCE hInstance, HINSTANCE hPrevInstance, LPWSTR lpCmdLine, int nCmdShow )
 {
 	if( FAILED( InitWindow( hInstance, nCmdShow ) ) )

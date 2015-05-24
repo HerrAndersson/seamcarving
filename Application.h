@@ -3,6 +3,7 @@
 #include "Picture.h"
 #include "FileTypes.h"
 #include "SeamCarver.h"
+#include "Helper.h"
 
 using namespace std;
 
@@ -20,8 +21,6 @@ private:
 
 	void Clear();
 	void ShowPicture(Picture* picture, int offsetX, int offsetY);
-
-	int GetNumberOfDigits(int i);
 
 public:
 

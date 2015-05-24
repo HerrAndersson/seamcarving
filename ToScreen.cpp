@@ -11,9 +11,6 @@ char* SHADER_STRING = R"(
 	SamplerState samLinear : register(s0);
 	Texture2D frame : register(t0);
 
-	//-----------------------------------------------------------------------------------------
-	// VertexShader: VSScene
-	//-----------------------------------------------------------------------------------------
 	PSSceneIn VS_main(uint vertexId : SV_VertexID)
 	{
 		PSSceneIn output = (PSSceneIn)0;
@@ -32,9 +29,6 @@ char* SHADER_STRING = R"(
 		return output;
 	}
 
-	//-----------------------------------------------------------------------------------------
-	// PixelShader: PSSceneMain
-	//-----------------------------------------------------------------------------------------
 	float4 PS_main(PSSceneIn input) : SV_Target
 	{
 		return frame.Sample(samLinear, input.TexCoords);
@@ -43,8 +37,8 @@ char* SHADER_STRING = R"(
 
 ToScreen::ToScreen()
 {
-	mCurrentFrame = nullptr;
-	mCurrentFrameView = nullptr;
+	mCurrentFrame		= nullptr;
+	mCurrentFrameView	= nullptr;
 
 	mDriverType			= D3D10_DRIVER_TYPE_NULL;
 	mSwapChain			= nullptr;
@@ -55,9 +49,9 @@ ToScreen::ToScreen()
 	mScreenPixels		= nullptr;
 	mTexture			= nullptr;
 
-	mVertexShader = nullptr;
-	mPixelShader = nullptr;
-	mTextureSampler = nullptr;
+	mVertexShader		= nullptr;
+	mPixelShader		= nullptr;
+	mTextureSampler		= nullptr;
 }
 
 ToScreen::~ToScreen()
@@ -88,10 +82,7 @@ HRESULT ToScreen::CreateShadersAndInputLayout()
 	ID3DBlob* pVertexShader = NULL;
 	if (SUCCEEDED(hr = CompileShader(SHADER_STRING, "VS_main", "vs_4_0", NULL, &pVertexShader)))
 	{
-		if (SUCCEEDED(hr = mDevice->CreateVertexShader(pVertexShader->GetBufferPointer(),pVertexShader->GetBufferSize(),&mVertexShader)))
-		{
-
-		}
+		hr = mDevice->CreateVertexShader(pVertexShader->GetBufferPointer(), pVertexShader->GetBufferSize(), &mVertexShader);
 		SAFE_RELEASE(pVertexShader);
 	}
 
@@ -99,7 +90,6 @@ HRESULT ToScreen::CreateShadersAndInputLayout()
 	if (SUCCEEDED(hr = CompileShader(SHADER_STRING, "PS_main", "ps_4_0", NULL, &pPixelShader)))
 	{
 		hr = mDevice->CreatePixelShader(pPixelShader->GetBufferPointer(), pPixelShader->GetBufferSize(), &mPixelShader);
-
 		SAFE_RELEASE(pPixelShader);
 	}
 
@@ -189,7 +179,6 @@ HRESULT ToScreen::Init(HWND hwnd)
 	if( FAILED(hr) )
 		return hr;
 
-
 	mDevice->OMSetRenderTargets( 1, &mRenderTargetView, mDepthStencilView );
 
 	// Setup the viewport
@@ -203,9 +192,7 @@ HRESULT ToScreen::Init(HWND hwnd)
 	mDevice->RSSetViewports( 1, &vp );
 
 	if (FAILED(CreateShadersAndInputLayout()))
-	{
 		MessageBoxA(0, "Shader compilation error", "Shader error!", 0);
-	}
 
 	mScreenPixels = new BYTE[mScreenWidth * mScreenHeight * 4];
 
@@ -223,7 +210,7 @@ void ToScreen::Release()
 
 	SAFE_RELEASE(mCurrentFrameView);
 
-	if(mCurrentFrame != nullptr)
+	if(mCurrentFrame)
 		mCurrentFrame->Release();
 	mCurrentFrame = nullptr;
 
@@ -247,7 +234,6 @@ HRESULT ToScreen::Update(float deltaTime)
 	if(mCurrentFrame != nullptr)
 		mCurrentFrame->Release();
 
-	//lazy teachers (SPR and FLL) were here :-)
 	if (!mTextureSampler)
 	{
 		D3D10_SAMPLER_DESC desc;
@@ -301,11 +287,9 @@ HRESULT ToScreen::Update(float deltaTime)
 			mCurrentFrameView->Release();
 
 		mDevice->CreateShaderResourceView( mTexture, &srvDesc, &mCurrentFrameView );
-		//Texture->Release();
 	}
 	else
 	{
-		// update texture resource with new pixel data
 		D3D10_BOX destRegion;
 		destRegion.left = 0;
 		destRegion.right = mScreenWidth;
@@ -322,27 +306,17 @@ HRESULT ToScreen::Update(float deltaTime)
 
 HRESULT ToScreen::Render()
 {
-	// Set variables
-	//mEffect->GetVariableByName( "frame" )->AsShaderResource()->SetResource(mCurrentFrameView);
 	mDevice->PSSetShaderResources(0, 1, &mCurrentFrameView);
 	mDevice->PSSetSamplers(0, 1, &mTextureSampler);
 
-	// Set Input Assembler params
-	//UINT stride = sizeof(TriVertex);
-	//UINT offset = 0;
 	mDevice->IASetInputLayout( nullptr );
 	mDevice->IASetPrimitiveTopology( D3D10_PRIMITIVE_TOPOLOGY_TRIANGLESTRIP );
-	//mDevice->IASetVertexBuffers( 0, 0, nullptr, nullptr, nullptr );
 
 	static float ClearColor[4] = { 0.5f, 0.5f, 0.5f, 0.0f };
 	
-	//clear render target
 	mDevice->ClearRenderTargetView( mRenderTargetView, ClearColor );
-
-	//clear depth info
 	mDevice->ClearDepthStencilView( mDepthStencilView, D3D10_CLEAR_DEPTH, 1.0f, 0 );
 
-	// Render line using the technique mRenderTextured
 	mDevice->VSSetShader(mVertexShader);
 	mDevice->GSSetShader(nullptr);
 	mDevice->PSSetShader(mPixelShader);
