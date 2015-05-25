@@ -6,8 +6,8 @@
 
 using namespace std;
 
-int removeColumns = 1;
-int removeRows = 1;
+int removeColumns = 10;
+int removeRows = 10;
 bool showV = true;
 bool showH = true;
 
@@ -30,7 +30,7 @@ bool saved = false;
 
 Application::Application(ToScreen* scr)
 {
-	_CrtSetDbgFlag(_CRTDBG_ALLOC_MEM_DF | _CRTDBG_LEAK_CHECK_DF | _CRTDBG_CHECK_ALWAYS_DF);
+	//_CrtSetDbgFlag(_CRTDBG_ALLOC_MEM_DF | _CRTDBG_LEAK_CHECK_DF | _CRTDBG_CHECK_ALWAYS_DF);
 
 	Screen = scr;
 
