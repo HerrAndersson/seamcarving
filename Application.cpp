@@ -2,7 +2,6 @@
 #include <iostream>
 #include <fstream>
 #include <math.h>
-//#include "vld.h"
 
 using namespace std;
 
